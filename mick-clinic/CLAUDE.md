@@ -17,3 +17,22 @@
 - 不要在 `data/` 下產生測試假資料(會跟真實資料混淆)
 - 不要直接修改 `.claude/settings.json`,要改先問
 - 不要在沒有讀規則檔的情況下產出 IG 貼文或對客戶的內容
+
+## 自動同步(每次對話結束前)
+當一輪任務完成、且這輪對話有修改檔案時,**主動**執行:
+
+```bash
+cd /c/Users/singi/Downloads/mick-universe
+git add .
+git commit -m "claude: <這輪做了什麼 一句話>"
+git push
+```
+
+規則:
+- 只有**有實際檔案變動**時才執行(純問答、純閱讀不 commit)
+- 訊息用 `claude:` 前綴,方便跟人工 / Obsidian Git 的 commit 區分
+  - Obsidian Git 的前綴是 `vault:`
+  - 人工 commit 不加前綴
+- 若 push 失敗(沒網路、沒 remote、認證問題),不要反覆重試 — 告訴使用者並停下
+- 若 `git status` 顯示衝突或非預期的檔案,**先問再 commit**,不要 blind `git add .`
+- 若這是敏感內容(客戶資料、醫療紀錄、私人訊息)**先問使用者要不要 push**
