@@ -1,0 +1,17 @@
+node_modules/
+.next/
+.env
+.env.local
+.env.production
+.DS_Store
+*.log
+.vercel
+
+# Claude Code local overrides
+.claude/settings.local.json
+CLAUDE.local.md
+
+# Obsidian user-specific state (keep vault config + plugin, skip per-machine state)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache

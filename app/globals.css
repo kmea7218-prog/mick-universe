@@ -1,0 +1,113 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@400;700;900&family=JetBrains+Mono:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gradient-mick: linear-gradient(135deg, #7362fc 0%, #a562fc 40%, #fc62e4 100%);
+}
+
+html,
+body {
+  background: #fefcff;
+  color: #1a1532;
+  font-family: "Noto Sans TC", "Manrope", sans-serif;
+  font-feature-settings: "ss01", "ss02";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scrollbar styling ─── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #c8c3d6;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a562fc;
+}
+
+/* ─── Gradient text utility ─── */
+.gradient-text {
+  background: var(--gradient-mick);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* ─── Glass card ─── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(115, 98, 252, 0.08);
+}
+
+/* ─── Animated gradient mesh background ─── */
+.mesh-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+.mesh-bg::before,
+.mesh-bg::after {
+  content: "";
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.35;
+}
+.mesh-bg::before {
+  background: #7362fc;
+  top: -200px;
+  left: -100px;
+  animation: float 12s ease-in-out infinite;
+}
+.mesh-bg::after {
+  background: #fc62e4;
+  bottom: -200px;
+  right: -100px;
+  animation: float 15s ease-in-out infinite reverse;
+}
+
+/* ─── Shimmer for loading ─── */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(115, 98, 252, 0.05) 0%,
+    rgba(115, 98, 252, 0.15) 50%,
+    rgba(115, 98, 252, 0.05) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmerMove 2s infinite;
+}
+@keyframes shimmerMove {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ─── Prose-like content ─── */
+.prose-mick {
+  line-height: 1.75;
+}
+.prose-mick h1,
+.prose-mick h2,
+.prose-mick h3 {
+  font-family: "Bricolage Grotesque", "Noto Sans TC", sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}

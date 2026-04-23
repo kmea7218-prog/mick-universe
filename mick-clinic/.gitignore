@@ -1,0 +1,18 @@
+CLAUDE.local.md
+.claude/settings.local.json
+.env
+.env.local
+node_modules/
+.next/
+.DS_Store
+
+# Obsidian workspace files (keep vault config, skip user-specific state)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache
+
+# Raw data that shouldn't be in public repo (remove if you want to version it)
+data/farms/*.csv
+data/cows/*.csv
+!data/**/.gitkeep
+!data/**/README.md
