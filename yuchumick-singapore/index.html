@@ -1240,6 +1240,99 @@ async function send() {
     input.focus();
   }
 }
+
+/* =========================
+   IMAGE FIX + LIGHTBOX
+   Replace deprecated source.unsplash.com URLs with Wikimedia Commons,
+   then add click-to-enlarge lightbox to all .ph photos.
+   ========================= */
+(function fixAndLightbox() {
+  const map = {
+    'marina-bay-sands':       'Marina_Bay_Sands_in_the_evening_-_20150523.jpg',
+    'marina-bay':             'Marina_Bay_Sands_in_the_evening_-_20150523.jpg',
+    'supertree':              'Supertree_Grove,_Gardens_by_the_Bay,_Singapore_-_20140809-02.jpg',
+    'gardens-by-the-bay':     'Supertree_Grove,_Gardens_by_the_Bay,_Singapore_-_20140809-02.jpg',
+    'cloud-forest':           'Cloud_Forest_at_Gardens_by_the_Bay_2018.jpg',
+    'merlion':                'The_Merlion_Singapore.jpg',
+    'singapore-zoo':          'Singapore_Zoo_2.JPG',
+    'giant-panda':            'Giant_Panda_at_River_Safari_Singapore.jpg',
+    'night-safari':           'Night_Safari_Singapore_entrance.jpg',
+    'universal-studios':      'Universal_Studios_Singapore_entrance.jpg',
+    'theme-park':             'Universal_Studios_Singapore_entrance.jpg',
+    'luge':                   'Sentosa_Luge.jpg',
+    'sentosa-beach':          'Siloso_Beach_Singapore.jpg',
+    'chili-crab':             'Chili_crab_stall_Singapore.jpg',
+    'seafood':                'Chili_crab_stall_Singapore.jpg',
+    'artscience-museum':      'ArtScience_Museum,_Singapore_-_20130308.jpg',
+    'teamlab':                'ArtScience_Museum,_Singapore_-_20130308.jpg',
+    'chinatown':              'Chinatown,_Singapore_(Pagoda_Street).jpg',
+    'lanterns':               'Chinatown,_Singapore_(Pagoda_Street).jpg',
+    'hainanese-chicken-rice': 'Hainanese_chicken_rice.jpg',
+    'orchard-road':           'Orchard_Road,_Singapore_-_20120526.jpg',
+    'shopping':               'ION_Orchard,_Singapore_-_20121110.jpg',
+    'changi-airport':         'Jewel_Changi_Airport,_Singapore_-_20190417.jpg',
+    'jewel-changi':           'Jewel_Changi_Airport,_Singapore_-_20190417.jpg',
+    'waterfall':              'Jewel_Changi_Airport,_Singapore_-_20190417.jpg',
+    'sultan-mosque':          'Masjid_Sultan,_Singapore_-_20070210.jpg',
+    'flamingo':               'Flamingos_in_Singapore_Zoo.JPG',
+    'bak-kut-teh':            'Bak_kut_teh_Singapore.jpg',
+    'laksa':                  'Katong_laksa.jpg',
+    'satay':                  'Singapore_satay.jpg',
+    'kaya-toast':             'Kaya_Toast_Singapore.jpg',
+    'breakfast':              'Kaya_Toast_Singapore.jpg',
+    'roti-prata':             'Roti_prata.jpg',
+    'indian-bread':           'Roti_prata.jpg',
+    'durian':                 'Musang_King_durian.jpg',
+    'fruit':                  'Musang_King_durian.jpg',
+    'night':                  'Marina_Bay_Sands_in_the_evening_-_20150523.jpg',
+  };
+
+  function wmUrl(file, w) {
+    return `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=${w || 800}`;
+  }
+
+  // Replace srcs
+  document.querySelectorAll('img').forEach(img => {
+    if (!img.src.includes('source.unsplash.com')) return;
+    const qs = img.src.split('?').pop().toLowerCase();
+    let matched = null;
+    for (const key of Object.keys(map)) {
+      if (qs.includes(key)) { matched = map[key]; break; }
+    }
+    if (matched) {
+      img.dataset.full = wmUrl(matched, 1600);
+      img.src = wmUrl(matched, 800);
+      img.addEventListener('load',  () => img.parentElement.classList.remove('no-img'));
+      img.addEventListener('error', () => img.parentElement.classList.add('no-img'));
+    }
+  });
+
+  // Lightbox
+  const lb = document.createElement('div');
+  lb.id = 'lightbox';
+  lb.style.cssText = 'position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;padding:20px;cursor:zoom-out;backdrop-filter:blur(6px);';
+  lb.innerHTML = `
+    <div style="position:absolute;top:16px;right:16px;color:white;font-size:28px;cursor:pointer;background:rgba(255,255,255,.12);width:44px;height:44px;border-radius:999px;display:grid;place-items:center;">×</div>
+    <figure style="max-width:100%;max-height:100%;margin:0;text-align:center;">
+      <img style="max-width:100%;max-height:85vh;border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.6);">
+      <figcaption style="color:white;font-size:14px;margin-top:12px;opacity:.8;"></figcaption>
+    </figure>`;
+  document.body.appendChild(lb);
+  lb.addEventListener('click', () => lb.style.display = 'none');
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') lb.style.display = 'none'; });
+
+  document.querySelectorAll('.ph').forEach(ph => {
+    ph.style.cursor = 'zoom-in';
+    ph.addEventListener('click', e => {
+      const img = ph.querySelector('img');
+      if (!img || !img.src || ph.classList.contains('no-img')) return;
+      const cap = ph.querySelector('figcaption')?.textContent || '';
+      lb.querySelector('img').src = img.dataset.full || img.src;
+      lb.querySelector('figcaption').textContent = cap;
+      lb.style.display = 'flex';
+    });
+  });
+})();
 </script>
 
 </body>
