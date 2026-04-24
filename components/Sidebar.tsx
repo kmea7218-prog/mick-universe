@@ -9,6 +9,7 @@ import {
   Lightbulb,
   Bot,
   Scroll,
+  Plane,
 } from "lucide-react";
 
 const nav = [
@@ -17,6 +18,7 @@ const nav = [
   { href: "/tasks", label: "任務列表", icon: ListTodo },
   { href: "/brainstorm", label: "腦力激盪", icon: Lightbulb },
   { href: "/ai", label: "AI 協作中控", icon: Bot },
+  { href: "/singapore", label: "新加坡 · 獅城五日", icon: Plane },
 ];
 
 export default function Sidebar() {
