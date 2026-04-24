@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0D4B7A" />
+<title>新加坡 · 八月熱帶爽吃爽玩 · 獅城報復性五日遊 · YuxChuxMick</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['"Bricolage Grotesque"', '"Noto Sans TC"', 'sans-serif'],
+          sans: ['"Noto Sans TC"', 'system-ui', 'sans-serif'],
+        },
+        colors: {
+          sg: {
+            red: '#EF4444', coral: '#FF7A6B', sun: '#FFB547', aqua: '#4FD1C5',
+            deep: '#0D4B7A', sky: '#7EC9F7', cream: '#FFF7ED',
+          },
+        },
+        boxShadow: { soft: '0 10px 30px -12px rgba(13,75,122,0.18)' },
+      }
+    }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Noto Sans TC', system-ui, sans-serif; background: #FFF7ED; color: #0F2436; }
+  .grad-hero { background: radial-gradient(1200px 600px at 10% -10%, #FFDCB0 0%, transparent 50%), radial-gradient(1000px 500px at 90% 10%, #B6E6E0 0%, transparent 55%), linear-gradient(160deg, #FFF7ED, #EAF7F6); }
+  .grad-text { background: linear-gradient(90deg,#EF4444,#FF7A6B 40%,#FFB547 70%,#4FD1C5); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .card { background: white; border: 1px solid rgba(13,75,122,0.06); box-shadow: 0 10px 30px -12px rgba(13,75,122,0.10); }
+  .chip { display:inline-flex; align-items:center; gap:4px; padding:3px 10px; border-radius:999px; font-size:11px; font-weight:600; }
+
+  /* App frame */
+  .app-shell { max-width: 1080px; margin: 0 auto; min-height: 100vh; position: relative; padding-bottom: 90px; }
+  .appbar { position: sticky; top: 0; z-index: 40; backdrop-filter: blur(12px); background: rgba(255,247,237,.85); border-bottom: 1px solid rgba(13,75,122,.08); }
+  .tabbar { position: sticky; bottom: 0; z-index: 40; backdrop-filter: blur(14px); background: rgba(255,255,255,.92); border-top: 1px solid rgba(13,75,122,.08); padding: 8px 6px calc(8px + env(safe-area-inset-bottom)); }
+  .tabbar-row { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding: 0 4px; }
+  .tabbar-row::-webkit-scrollbar { display: none; }
+  .tab-btn { flex-shrink: 0; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; min-width: 64px; padding: 6px 10px; border-radius: 14px; color: #5A6B7A; font-size: 11px; font-weight: 600; transition: all .2s; gap: 2px; }
+  .tab-btn.active { background: #0D4B7A; color: white; transform: translateY(-2px); box-shadow: 0 8px 24px -10px rgba(13,75,122,.45); }
+  .tab-btn.disabled { opacity: .4; cursor: not-allowed; }
+  .tab-btn .ico { font-size: 20px; line-height: 1; }
+
+  /* Tab panels */
+  [data-panel] { display: none; }
+  [data-panel].active { display: block; animation: fadeSlide .35s ease; }
+  @keyframes fadeSlide { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Photo cards */
+  .ph { position: relative; aspect-ratio: 4/3; border-radius: 16px; overflow: hidden; background: #E5E7EB; }
+  .ph::before { content: attr(data-emoji); position: absolute; inset: 0; display: grid; place-items: center; font-size: 3.5rem; z-index: 0; opacity: .9; }
+  .ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; transition: transform .4s; }
+  .ph.no-img img { display: none; }
+  .ph:hover img { transform: scale(1.05); }
+  .ph figcaption { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; padding: 10px 14px; background: linear-gradient(transparent, rgba(0,0,0,.7)); color: white; font-weight: 700; font-size: 14px; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
+  .ph.lg { aspect-ratio: 16/9; }
+  .ph.sq { aspect-ratio: 1/1; }
+
+  /* Timeline */
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .chev { transform: rotate(180deg); }
+  .chev { transition: transform .25s ease; }
+  .tl-dot { position: absolute; left: -7px; top: 20px; width: 14px; height: 14px; border-radius: 999px; background: linear-gradient(135deg,#FFB547,#EF4444); box-shadow: 0 0 0 4px white, 0 0 0 5px rgba(239,68,68,.25); }
+  .tl-line { position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, #FFB547, #EF4444, #4FD1C5); opacity: .35; }
+  .tag-time { font-variant-numeric: tabular-nums; }
+
+  /* Chat */
+  .msg { max-width: 80%; padding: 12px 16px; border-radius: 18px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+  .msg-u { background: linear-gradient(135deg,#EF4444,#FF7A6B); color: white; align-self: flex-end; border-bottom-right-radius: 6px; }
+  .msg-b { background: #F4F8FA; color: #0F2436; align-self: flex-start; border-bottom-left-radius: 6px; }
+  @keyframes pulseDot { 0%,100% { opacity: .3 } 50% { opacity: 1 } }
+  .dot { animation: pulseDot 1.4s infinite; }
+  .dot:nth-child(2) { animation-delay: .2s }
+  .dot:nth-child(3) { animation-delay: .4s }
+
+  /* FX Modal */
+  .modal-scrim { position: fixed; inset: 0; z-index: 60; background: rgba(15,36,54,.5); backdrop-filter: blur(8px); display: none; align-items: flex-end; justify-content: center; }
+  .modal-scrim.open { display: flex; }
+  .modal { width: 100%; max-width: 560px; background: white; border-radius: 24px 24px 0 0; padding: 20px; animation: slideUp .3s ease; }
+  @media (min-width: 640px) { .modal-scrim { align-items: center; } .modal { border-radius: 24px; } }
+  @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+
+  /* FX pill */
+  .fx-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px 5px 8px; border-radius: 999px; background: white; border: 1px solid rgba(13,75,122,.15); font-size: 12px; font-weight: 600; color: #0D4B7A; cursor: pointer; transition: all .2s; }
+  .fx-pill:hover { background: #EAF7F6; transform: translateY(-1px); }
+  .fx-pill .fx-dot { width: 8px; height: 8px; border-radius: 999px; background: #4FD1C5; animation: pulseDot 2s infinite; }
+
+  /* Flight card */
+  .fcard { border: 1px solid rgba(13,75,122,.1); border-radius: 20px; padding: 18px; background: white; transition: all .25s; }
+  .fcard:hover { box-shadow: 0 20px 40px -20px rgba(13,75,122,.2); transform: translateY(-2px); }
+
+  /* Misc */
+  .btn-primary { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 12px; background: linear-gradient(135deg,#EF4444,#FF7A6B); color: white; font-weight: 600; font-size: 14px; box-shadow: 0 8px 20px -8px rgba(239,68,68,.5); transition: all .2s; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -8px rgba(239,68,68,.6); }
+  .btn-ghost { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 12px; background: white; border: 1px solid rgba(13,75,122,.15); color: #0D4B7A; font-weight: 600; font-size: 14px; transition: all .2s; }
+  .btn-ghost:hover { background: #EAF7F6; }
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+
+<!-- ========== APP BAR ========== -->
+<header class="appbar px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
+  <div class="flex items-center gap-2.5 min-w-0">
+    <span class="w-9 h-9 rounded-full bg-gradient-to-br from-sg-red via-sg-coral to-sg-sun flex items-center justify-center shadow-soft text-white font-display font-black text-sm">SG</span>
+    <div class="min-w-0">
+      <div class="font-display font-extrabold text-sm leading-tight truncate">YuxChuxMick</div>
+      <div class="text-[10px] text-sg-deep/60 leading-tight">獅城報復性五日遊 · 8月</div>
+    </div>
+  </div>
+  <div class="flex items-center gap-2">
+    <button id="fxPill" class="fx-pill" title="點擊打開換匯計算機">
+      <span class="fx-dot"></span>
+      <span>1 SGD = <span id="fxRate">--.--</span> TWD</span>
+    </button>
+  </div>
+</header>
+
+<!-- ========== PANEL: HOME ========== -->
+<section data-panel="home" class="active">
+  <div class="grad-hero px-5 sm:px-8 pt-10 pb-14">
+    <span class="chip bg-white/80 text-sg-deep border border-sg-deep/10">🇸🇬 2026.08 · 5 Days</span>
+
+    <h1 class="font-display font-extrabold mt-4 leading-[1]">
+      <span class="grad-text text-6xl sm:text-8xl block">新加坡</span>
+      <span class="block text-2xl sm:text-3xl mt-3 text-sg-deep font-bold">八月熱帶爽吃爽玩</span>
+    </h1>
+    <div class="mt-5 inline-flex items-center gap-2">
+      <span class="chip bg-sg-red text-white text-[13px] px-3 py-1.5">🦁 獅城報復性五日遊</span>
+    </div>
+    <div class="mt-4 font-display font-bold text-lg text-sg-deep/70 tracking-wide">
+      <span class="text-sg-red">Yu</span> × <span class="text-sg-deep">Chu</span> × <span class="text-sg-sun">Mick</span>
+      <span class="text-xs text-sg-deep/50 ml-2">(5 歲)</span>
+    </div>
+
+    <p class="mt-5 text-sm sm:text-base text-sg-deep/80 max-w-xl">
+      以親子、美食、文化參訪、逛街玩樂為主軸，搭配熱帶午後雷雨與榴槤季的 8 月節奏。
+    </p>
+
+    <div class="mt-7 grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div class="card rounded-2xl p-3.5"><div class="text-[10px] text-sg-deep/60">建議日期</div><div class="font-display font-bold text-[15px] mt-0.5">08/10 – 08/14</div></div>
+      <div class="card rounded-2xl p-3.5"><div class="text-[10px] text-sg-deep/60">三人預算</div><div class="font-display font-bold text-[15px] mt-0.5">TWD 11–12 萬</div></div>
+      <div class="card rounded-2xl p-3.5"><div class="text-[10px] text-sg-deep/60">氣溫</div><div class="font-display font-bold text-[15px] mt-0.5">27–32°C</div></div>
+      <div class="card rounded-2xl p-3.5"><div class="text-[10px] text-sg-deep/60">時差</div><div class="font-display font-bold text-[15px] mt-0.5">無 · SGD</div></div>
+    </div>
+
+    <div class="mt-6 flex flex-wrap gap-2">
+      <button onclick="go('flights')" class="btn-primary">✈ 看機票</button>
+      <button onclick="go('itinerary')" class="btn-ghost">🗺 五日行程</button>
+      <button onclick="go('chat')" class="btn-ghost">💬 問 Claude</button>
+    </div>
+  </div>
+
+  <!-- Hero gallery -->
+  <div class="px-5 sm:px-8 py-8">
+    <h2 class="font-display font-bold text-xl mb-3">📸 你會看到這些</h2>
+    <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 sm:gap-3">
+      <figure class="ph sq" data-emoji="🌃"><img loading="lazy" src="https://source.unsplash.com/400x400/?marina-bay-sands,singapore" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px] !p-2">濱海灣</figcaption></figure>
+      <figure class="ph sq" data-emoji="🌳"><img loading="lazy" src="https://source.unsplash.com/400x400/?gardens-by-the-bay" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px] !p-2">超級樹</figcaption></figure>
+      <figure class="ph sq" data-emoji="🦁"><img loading="lazy" src="https://source.unsplash.com/400x400/?merlion,singapore" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px] !p-2">魚尾獅</figcaption></figure>
+      <figure class="ph sq" data-emoji="🐼"><img loading="lazy" src="https://source.unsplash.com/400x400/?giant-panda,zoo" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px] !p-2">River Wonders</figcaption></figure>
+      <figure class="ph sq" data-emoji="🦀"><img loading="lazy" src="https://source.unsplash.com/400x400/?chili-crab,singapore" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px] !p-2">辣椒蟹</figcaption></figure>
+      <figure class="ph sq" data-emoji="🏮"><img loading="lazy" src="https://source.unsplash.com/400x400/?chinatown,singapore" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px] !p-2">牛車水</figcaption></figure>
+    </div>
+  </div>
+
+  <!-- 四大主題 -->
+  <div class="px-5 sm:px-8 pb-10">
+    <h2 class="font-display font-bold text-xl mb-3">🎯 四大玩樂主題</h2>
+    <div class="grid sm:grid-cols-2 gap-3">
+      <button onclick="go('attractions')" class="card rounded-2xl p-4 text-left hover:-translate-y-1 transition">
+        <div class="text-2xl">🎠</div>
+        <div class="font-display font-bold mt-1">親子景點</div>
+        <div class="text-xs text-sg-deep/60 mt-0.5">動物園 · USS · S.E.A. · 花園戲水 · ArtScience</div>
+      </button>
+      <button onclick="go('food')" class="card rounded-2xl p-4 text-left hover:-translate-y-1 transition">
+        <div class="text-2xl">🍜</div>
+        <div class="font-display font-bold mt-1">必吃美食</div>
+        <div class="text-xs text-sg-deep/60 mt-0.5">海南雞飯 · 辣椒蟹 · 肉骨茶 · 叻沙 · 沙嗲 · 榴槤</div>
+      </button>
+      <button onclick="go('attractions')" class="card rounded-2xl p-4 text-left hover:-translate-y-1 transition">
+        <div class="text-2xl">🏛</div>
+        <div class="font-display font-bold mt-1">文化參訪</div>
+        <div class="text-xs text-sg-deep/60 mt-0.5">魚尾獅 · 牛車水 · 甘榜格南 · 小印度</div>
+      </button>
+      <button onclick="go('attractions')" class="card rounded-2xl p-4 text-left hover:-translate-y-1 transition">
+        <div class="text-2xl">🛍</div>
+        <div class="font-display font-bold mt-1">逛街玩樂</div>
+        <div class="text-xs text-sg-deep/60 mt-0.5">Orchard · Jewel · VivoCity · Haji Lane</div>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PANEL: FLIGHTS ========== -->
+<section data-panel="flights" class="px-5 sm:px-8 py-8">
+  <div class="flex items-center justify-between">
+    <div>
+      <span class="chip bg-sg-sun/20 text-sg-deep">Flights</span>
+      <h2 class="font-display font-extrabold text-3xl mt-2">✈ 八月 高雄 → 新加坡</h2>
+      <p class="text-sg-deep/70 text-sm mt-1">星宇 (JX) vs 長榮 (BR) · 即時比價跳轉 Skyscanner / Trip.com</p>
+    </div>
+  </div>
+
+  <!-- 查詢設定 -->
+  <div class="card rounded-2xl p-4 mt-5">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div>
+        <label class="text-[11px] text-sg-deep/60 font-semibold">出發</label>
+        <input id="flDep" type="date" value="2026-08-10" class="w-full mt-1 px-2.5 py-2 rounded-lg border border-sg-deep/15 text-sm bg-white">
+      </div>
+      <div>
+        <label class="text-[11px] text-sg-deep/60 font-semibold">回程</label>
+        <input id="flRet" type="date" value="2026-08-14" class="w-full mt-1 px-2.5 py-2 rounded-lg border border-sg-deep/15 text-sm bg-white">
+      </div>
+      <div>
+        <label class="text-[11px] text-sg-deep/60 font-semibold">人數</label>
+        <select id="flPax" class="w-full mt-1 px-2.5 py-2 rounded-lg border border-sg-deep/15 text-sm bg-white">
+          <option value="2-1" selected>2 大 1 小</option>
+          <option value="3-0">3 大</option>
+          <option value="2-0">2 大</option>
+        </select>
+      </div>
+      <div>
+        <label class="text-[11px] text-sg-deep/60 font-semibold">艙等</label>
+        <select id="flCls" class="w-full mt-1 px-2.5 py-2 rounded-lg border border-sg-deep/15 text-sm bg-white">
+          <option value="economy" selected>經濟艙</option>
+          <option value="premiumeconomy">豪華經濟</option>
+          <option value="business">商務艙</option>
+        </select>
+      </div>
+    </div>
+    <div class="text-[11px] text-sg-deep/50 mt-3 leading-relaxed">
+      ℹ 瀏覽器受 CORS 限制無法直接抓 Skyscanner / Trip.com 即時價格。下方顯示的是 <b>8 月歷史參考區間</b>，按鈕會帶你到比價網站看當下真實報價。
+    </div>
+  </div>
+
+  <!-- 星宇 -->
+  <div class="fcard mt-5">
+    <div class="flex items-start justify-between gap-3 flex-wrap">
+      <div class="flex items-center gap-3">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#1a1a4e] to-[#0D4B7A] flex items-center justify-center text-white font-display font-black text-lg shadow-soft">JX</div>
+        <div>
+          <div class="font-display font-bold text-lg">星宇航空 Starlux</div>
+          <div class="text-xs text-sg-deep/60">KHH → SIN · 新星空服務、寬敞座位</div>
+        </div>
+      </div>
+      <div class="text-right">
+        <div class="text-[11px] text-sg-deep/60">8 月來回參考（經濟艙/人）</div>
+        <div class="font-display font-extrabold text-2xl text-sg-red">TWD 18,000 – 26,000</div>
+        <div class="text-[11px] text-sg-deep/50" id="jxSgd">≈ SGD <span>--</span></div>
+      </div>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-2 mt-4 text-sm">
+      <div class="flex items-center gap-2 bg-sg-cream/60 rounded-lg px-3 py-2">
+        <span>🛫</span><span>KHH 10:35 → SIN 15:30 · 直飛 約 4h55m</span>
+      </div>
+      <div class="flex items-center gap-2 bg-sg-cream/60 rounded-lg px-3 py-2">
+        <span>🛬</span><span>SIN 16:55 → KHH 22:00 · 直飛 約 5h05m</span>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-2 mt-4">
+      <a id="jxSky"  target="_blank" class="btn-primary">🔍 Skyscanner 查即時價</a>
+      <a id="jxTrip" target="_blank" class="btn-ghost">🔍 Trip.com</a>
+      <a id="jxGf"   target="_blank" class="btn-ghost">🔍 Google Flights</a>
+      <a href="https://www.starlux-airlines.com/zh-TW" target="_blank" class="btn-ghost">🏢 官網</a>
+    </div>
+  </div>
+
+  <!-- 長榮 -->
+  <div class="fcard mt-4">
+    <div class="flex items-start justify-between gap-3 flex-wrap">
+      <div class="flex items-center gap-3">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#1B5E20] to-[#388E3C] flex items-center justify-center text-white font-display font-black text-lg shadow-soft">BR</div>
+        <div>
+          <div class="font-display font-bold text-lg">長榮航空 EVA Air</div>
+          <div class="text-xs text-sg-deep/60">KHH → TPE → SIN（轉機）或 TPE 直飛</div>
+        </div>
+      </div>
+      <div class="text-right">
+        <div class="text-[11px] text-sg-deep/60">8 月來回參考（經濟艙/人）</div>
+        <div class="font-display font-extrabold text-2xl text-sg-red">TWD 17,000 – 24,000</div>
+        <div class="text-[11px] text-sg-deep/50" id="brSgd">≈ SGD <span>--</span></div>
+      </div>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-2 mt-4 text-sm">
+      <div class="flex items-center gap-2 bg-sg-cream/60 rounded-lg px-3 py-2">
+        <span>🛫</span><span>KHH → TPE → SIN · 轉機 約 7–9h</span>
+      </div>
+      <div class="flex items-center gap-2 bg-sg-cream/60 rounded-lg px-3 py-2">
+        <span>🛬</span><span>SIN → TPE → KHH · 轉機 約 7–9h</span>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-2 mt-4">
+      <a id="brSky"  target="_blank" class="btn-primary">🔍 Skyscanner 查即時價</a>
+      <a id="brTrip" target="_blank" class="btn-ghost">🔍 Trip.com</a>
+      <a id="brGf"   target="_blank" class="btn-ghost">🔍 Google Flights</a>
+      <a href="https://www.evaair.com/zh-tw/" target="_blank" class="btn-ghost">🏢 官網</a>
+    </div>
+  </div>
+
+  <!-- 比價站 -->
+  <div class="card rounded-2xl p-5 mt-6">
+    <h3 class="font-display font-bold">🔎 比價網一鍵跳轉</h3>
+    <p class="text-xs text-sg-deep/60 mt-1">同時開多家比較，常見最低價落差 10–15%。</p>
+    <div class="flex flex-wrap gap-2 mt-3">
+      <a id="allSky"  target="_blank" class="btn-primary">Skyscanner 看所有航空</a>
+      <a id="allTrip" target="_blank" class="btn-ghost">Trip.com 看所有航空</a>
+      <a id="allGf"   target="_blank" class="btn-ghost">Google Flights 看所有航空</a>
+      <a id="allKayak" target="_blank" class="btn-ghost">Kayak</a>
+    </div>
+  </div>
+
+  <!-- 小提醒 -->
+  <div class="card rounded-2xl p-5 mt-4 bg-sg-aqua/10 border-sg-aqua/30">
+    <h3 class="font-display font-bold">💡 訂票小撇步</h3>
+    <ul class="text-sm text-sg-deep/80 mt-2 space-y-1.5">
+      <li>• 新加坡 8 月是學校暑假尾，票價通常 <b>比 7 月便宜 5–10%</b>。</li>
+      <li>• 週二～週四出發通常比週五六日便宜 10–20%。</li>
+      <li>• 5 歲 Mick 票價約是大人 75%，可加選兒童餐（免費）與優先登機。</li>
+      <li>• Starlux 直飛省掉 TPE 轉機 2–3 小時，Mick 長途會比較輕鬆。</li>
+      <li>• 提前 <b>60–90 天</b>訂票是甜蜜點。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========== PANEL: ITINERARY ========== -->
+<section data-panel="itinerary" class="px-5 sm:px-8 py-8">
+  <div>
+    <span class="chip bg-sg-aqua/20 text-sg-deep">Itinerary</span>
+    <h2 class="font-display font-extrabold text-3xl mt-2">🗺 五日詳細行程</h2>
+    <p class="text-sg-deep/70 text-sm mt-1">點任一天展開 · 含照片、用餐、門票提示</p>
+  </div>
+
+  <div class="flex gap-1 mt-4 bg-white rounded-full p-1 border border-sg-deep/10 text-sm w-fit">
+    <button onclick="expandAll(true)" class="px-3 py-1.5 rounded-full bg-sg-deep text-white">全部展開</button>
+    <button onclick="expandAll(false)" class="px-3 py-1.5 rounded-full">全部收合</button>
+  </div>
+
+  <div class="space-y-4 mt-5" id="days">
+
+    <!-- Day 1 -->
+    <details class="card rounded-3xl overflow-hidden" open>
+      <summary class="p-5 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-sg-red to-sg-coral text-white flex flex-col items-center justify-center">
+            <div class="text-[10px] font-mono tracking-widest opacity-80">DAY</div>
+            <div class="font-display font-extrabold text-xl -mt-0.5">1</div>
+          </div>
+          <div>
+            <div class="text-xs text-sg-deep/60 tag-time">2026/08/10 (一)</div>
+            <div class="font-display font-bold text-lg">抵達 · 機場驚艷 · 濱海夜景</div>
+            <div class="text-xs text-sg-deep/60 mt-0.5">Jewel → 飯店 → 松發肉骨茶 → Spectra</div>
+          </div>
+        </div>
+        <svg class="chev w-5 h-5 text-sg-deep/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="px-5 pb-5">
+        <div class="grid grid-cols-2 gap-2 mb-5">
+          <figure class="ph" data-emoji="✈️"><img loading="lazy" src="https://source.unsplash.com/600x450/?changi-airport,jewel" onerror="this.parentElement.classList.add('no-img')"><figcaption>Jewel Changi 雨漩渦</figcaption></figure>
+          <figure class="ph" data-emoji="🌃"><img loading="lazy" src="https://source.unsplash.com/600x450/?marina-bay,night" onerror="this.parentElement.classList.add('no-img')"><figcaption>濱海灣夜景</figcaption></figure>
+        </div>
+        <div class="relative pl-6">
+          <div class="tl-line"></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">08:00 · 高雄</div><div class="mt-1 font-semibold">KHH 登機 · 帶 Mick 的貼紙本、耳塞、迷你積木</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">12:30 · Changi T1/T3</div><div class="mt-1 font-semibold">抵達 · 海關、換 SGD 零錢</div><div class="text-sm text-sg-deep/70 mt-1">線上填 <b>SG Arrival Card</b>（抵達前 72 小時）</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">13:00 · Jewel</div><div class="mt-1 font-semibold">🌈 星耀樟宜：雨漩渦、森林谷（免費）</div><div class="text-sm text-sg-deep/70 mt-1">🍽 午餐：Jewel B2 海南雞飯 / Shake Shack</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">15:00 · 飯店</div><div class="mt-1 font-semibold">🏨 Fairmont / PARKROYAL / Shangri-La Garden Wing</div><div class="text-sm text-sg-deep/70 mt-1">Mick 先泳池放電 1 小時</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">18:30 · Clarke Quay</div><div class="mt-1 font-semibold">🍲 松發肉骨茶（原味不辣給 Mick）</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">20:00 · 濱海灣</div><div class="mt-1 font-semibold">📸 魚尾獅 + Spectra 水舞秀（免費）</div></div>
+          <div class="relative"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">22:00 · 飯店</div><div class="mt-1 font-semibold">🌙 早睡，明天衝動物園</div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Day 2 -->
+    <details class="card rounded-3xl overflow-hidden">
+      <summary class="p-5 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-sg-sun to-sg-coral text-white flex flex-col items-center justify-center"><div class="text-[10px] font-mono tracking-widest opacity-80">DAY</div><div class="font-display font-extrabold text-xl -mt-0.5">2</div></div>
+          <div>
+            <div class="text-xs text-sg-deep/60 tag-time">2026/08/11 (二)</div>
+            <div class="font-display font-bold text-lg">🦁 動物園一日</div>
+            <div class="text-xs text-sg-deep/60 mt-0.5">Zoo × River Wonders × Night Safari</div>
+          </div>
+        </div>
+        <svg class="chev w-5 h-5 text-sg-deep/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="px-5 pb-5">
+        <div class="grid grid-cols-3 gap-2 mb-5">
+          <figure class="ph sq" data-emoji="🦁"><img loading="lazy" src="https://source.unsplash.com/400x400/?singapore-zoo" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px]">Zoo</figcaption></figure>
+          <figure class="ph sq" data-emoji="🐼"><img loading="lazy" src="https://source.unsplash.com/400x400/?giant-panda" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px]">River</figcaption></figure>
+          <figure class="ph sq" data-emoji="🌙"><img loading="lazy" src="https://source.unsplash.com/400x400/?night-safari" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px]">Night</figcaption></figure>
+        </div>
+        <div class="relative pl-6">
+          <div class="tl-line"></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">07:00</div><div class="mt-1 font-semibold">飯店早餐 · 擦防曬、噴防蚊、備用衣</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">08:00 · Grab</div><div class="mt-1 font-semibold">🚕 到 Mandai（約 30 分 / SGD 25）</div><div class="text-sm text-sg-deep/70 mt-1">事先預購 Zoo + River Wonders 2-Park Pass（省 ~15%）</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">08:45 · Zoo</div><div class="mt-1 font-semibold">🐒 Breakfast in the Wild 與紅毛猩猩共餐</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">12:30 · 午餐</div><div class="mt-1 font-semibold">🍽 Ah Meng Restaurant 自助</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">13:30 · River Wonders</div><div class="mt-1 font-semibold">🐼 熊貓森林 + 亞馬遜水道船（帶外套，館內 18°C）</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">16:30 · 休息</div><div class="mt-1 font-semibold">🥥 椰子水 + 氮氣冰淇淋</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">17:30 · 晚餐</div><div class="mt-1 font-semibold">🍽 Ulu Ulu Safari Restaurant</div></div>
+          <div class="relative"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">19:15 · Night Safari</div><div class="mt-1 font-semibold">🌒 夜間遊園車 40 分（Mick 太累就直接回）</div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Day 3 -->
+    <details class="card rounded-3xl overflow-hidden">
+      <summary class="p-5 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-sg-aqua to-sg-deep text-white flex flex-col items-center justify-center"><div class="text-[10px] font-mono tracking-widest opacity-80">DAY</div><div class="font-display font-extrabold text-xl -mt-0.5">3</div></div>
+          <div>
+            <div class="text-xs text-sg-deep/60 tag-time">2026/08/12 (三)</div>
+            <div class="font-display font-bold text-lg">🏖 聖淘沙全日</div>
+            <div class="text-xs text-sg-deep/60 mt-0.5">USS × 斜坡滑車 × 西樂索海灘</div>
+          </div>
+        </div>
+        <svg class="chev w-5 h-5 text-sg-deep/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="px-5 pb-5">
+        <div class="grid grid-cols-3 gap-2 mb-5">
+          <figure class="ph sq" data-emoji="🎢"><img loading="lazy" src="https://source.unsplash.com/400x400/?universal-studios" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px]">USS</figcaption></figure>
+          <figure class="ph sq" data-emoji="🛷"><img loading="lazy" src="https://source.unsplash.com/400x400/?luge,sentosa" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px]">Luge</figcaption></figure>
+          <figure class="ph sq" data-emoji="🏖"><img loading="lazy" src="https://source.unsplash.com/400x400/?sentosa-beach" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px]">Siloso</figcaption></figure>
+        </div>
+        <div class="relative pl-6">
+          <div class="tl-line"></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">08:00</div><div class="mt-1 font-semibold">早餐 · 速乾衣 + 涼鞋</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">09:00 · HarbourFront</div><div class="mt-1 font-semibold">🚠 纜車 Mt Faber → Sentosa（SGD 35）</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">10:00 · USS</div><div class="mt-1 font-semibold">🎢 環球影城 + Express 快速通關</div><div class="text-sm text-sg-deep/70 mt-1">5 歲路線：芝麻街、Madagascar、Far Far Away、Minion Land</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">12:30 · 午餐</div><div class="mt-1 font-semibold">🍽 Oasis Spice Cafe / Minion Mart</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">16:00 · Luge</div><div class="mt-1 font-semibold">🛷 Skyline Luge × 4 趟（Mick 與大人雙人共乘）</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">17:30 · 海灘</div><div class="mt-1 font-semibold">🌅 西樂索海灘踩水、看夕陽</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">19:00 · 晚餐</div><div class="mt-1 font-semibold">🍽 Coastes 海灘餐廳 / FOC Sentosa</div></div>
+          <div class="relative"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">20:40 · Wings of Time</div><div class="mt-1 font-semibold">🎆 海上聲光秀（可選）</div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Day 4 -->
+    <details class="card rounded-3xl overflow-hidden">
+      <summary class="p-5 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-sg-coral to-sg-red text-white flex flex-col items-center justify-center"><div class="text-[10px] font-mono tracking-widest opacity-80">DAY</div><div class="font-display font-extrabold text-xl -mt-0.5">4</div></div>
+          <div>
+            <div class="text-xs text-sg-deep/60 tag-time">2026/08/13 (四)</div>
+            <div class="font-display font-bold text-lg">🌸 花園 · 未來世界 · 辣椒蟹</div>
+            <div class="text-xs text-sg-deep/60 mt-0.5">Gardens × ArtScience × Jumbo × MBS SkyPark</div>
+          </div>
+        </div>
+        <svg class="chev w-5 h-5 text-sg-deep/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="px-5 pb-5">
+        <div class="grid grid-cols-3 gap-2 mb-5">
+          <figure class="ph sq" data-emoji="☁"><img loading="lazy" src="https://source.unsplash.com/400x400/?cloud-forest,singapore" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px]">Cloud Forest</figcaption></figure>
+          <figure class="ph sq" data-emoji="🎨"><img loading="lazy" src="https://source.unsplash.com/400x400/?artscience-museum" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px]">ArtScience</figcaption></figure>
+          <figure class="ph sq" data-emoji="🦀"><img loading="lazy" src="https://source.unsplash.com/400x400/?chili-crab" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px]">Chili Crab</figcaption></figure>
+        </div>
+        <div class="relative pl-6">
+          <div class="tl-line"></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">09:00 · 濱海灣花園</div><div class="mt-1 font-semibold">☁ Cloud Forest + 🌷 Flower Dome</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">11:00 · 兒童花園</div><div class="mt-1 font-semibold">💦 Far East Children's Garden（免費戲水，帶泳衣）</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">12:30 · 午餐</div><div class="mt-1 font-semibold">🍢 Satay by the Bay 沙嗲街</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">14:00 · ArtScience</div><div class="mt-1 font-semibold">✨ Future World 互動光影（Mick 最愛 2 小時）</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">16:30 · 飯店</div><div class="mt-1 font-semibold">🛌 小睡 + 泳池</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">18:30 · 晚餐</div><div class="mt-1 font-semibold">🦀 Jumbo Seafood 辣椒蟹 + 小饅頭</div></div>
+          <div class="relative"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">20:30 · MBS SkyPark</div><div class="mt-1 font-semibold">🌃 金沙 57 樓夜景</div></div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Day 5 -->
+    <details class="card rounded-3xl overflow-hidden">
+      <summary class="p-5 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+          <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-sg-deep to-sg-aqua text-white flex flex-col items-center justify-center"><div class="text-[10px] font-mono tracking-widest opacity-80">DAY</div><div class="font-display font-extrabold text-xl -mt-0.5">5</div></div>
+          <div>
+            <div class="text-xs text-sg-deep/60 tag-time">2026/08/14 (五)</div>
+            <div class="font-display font-bold text-lg">🏮 文化 · 購物 · 回程</div>
+            <div class="text-xs text-sg-deep/60 mt-0.5">Chinatown → Orchard → Jewel → 回台</div>
+          </div>
+        </div>
+        <svg class="chev w-5 h-5 text-sg-deep/60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="px-5 pb-5">
+        <div class="grid grid-cols-3 gap-2 mb-5">
+          <figure class="ph sq" data-emoji="🏮"><img loading="lazy" src="https://source.unsplash.com/400x400/?chinatown,singapore" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px]">牛車水</figcaption></figure>
+          <figure class="ph sq" data-emoji="🍗"><img loading="lazy" src="https://source.unsplash.com/400x400/?hainanese-chicken-rice" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px]">海南雞飯</figcaption></figure>
+          <figure class="ph sq" data-emoji="🛍"><img loading="lazy" src="https://source.unsplash.com/400x400/?orchard-road,singapore" onerror="this.parentElement.classList.add('no-img')"><figcaption class="!text-[11px]">Orchard</figcaption></figure>
+        </div>
+        <div class="relative pl-6">
+          <div class="tl-line"></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">07:30</div><div class="mt-1 font-semibold">🥐 亞坤 · 咖椰吐司 + 半熟蛋</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">09:00 · Chinatown</div><div class="mt-1 font-semibold">🛕 佛牙寺 + 牛車水原貌館</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">11:30 · Maxwell</div><div class="mt-1 font-semibold">🍗 天天海南雞飯（#01-10）</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">13:00 · Orchard</div><div class="mt-1 font-semibold">🛒 ION + Takashimaya（童裝、伴手禮）</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">15:00 · 飯店</div><div class="mt-1 font-semibold">🧳 拿行李 Check-out</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">16:45 · Changi</div><div class="mt-1 font-semibold">✈ Check-in + eTRS 退稅</div></div>
+          <div class="relative pb-5"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">17:30 · Jewel</div><div class="mt-1 font-semibold">🛍 林志源肉乾、美珍香、TWG 茶</div></div>
+          <div class="relative"><div class="tl-dot"></div><div class="text-xs text-sg-deep/50 tag-time">19:30</div><div class="mt-1 font-semibold">🛫 晚班機 → KHH</div></div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <!-- Checklist -->
+  <div class="card rounded-2xl p-5 mt-6">
+    <h3 class="font-display font-bold">🎒 行前 Checklist</h3>
+    <div class="grid sm:grid-cols-2 gap-2 mt-3 text-sm">
+      <label class="flex items-center gap-2"><input type="checkbox" class="rounded"> 護照效期 > 6 個月</label>
+      <label class="flex items-center gap-2"><input type="checkbox" class="rounded"> SG Arrival Card（72h 內）</label>
+      <label class="flex items-center gap-2"><input type="checkbox" class="rounded"> eSIM / Grab / Google Maps</label>
+      <label class="flex items-center gap-2"><input type="checkbox" class="rounded"> 旅平險（含兒童醫療）</label>
+      <label class="flex items-center gap-2"><input type="checkbox" class="rounded"> Mick 備藥</label>
+      <label class="flex items-center gap-2"><input type="checkbox" class="rounded"> 泳衣 × 2 + 備用衣物</label>
+      <label class="flex items-center gap-2"><input type="checkbox" class="rounded"> 折疊推車 / 背巾</label>
+      <label class="flex items-center gap-2"><input type="checkbox" class="rounded"> 拖鞋 + 防水鞋</label>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PANEL: FOOD ========== -->
+<section data-panel="food" class="px-5 sm:px-8 py-8">
+  <span class="chip bg-sg-sun/20 text-sg-deep">Food</span>
+  <h2 class="font-display font-extrabold text-3xl mt-2">🍜 美食地圖</h2>
+  <p class="text-sg-deep/70 text-sm mt-1">8 樣獅城必吃 · Mick 友善版（不辣選項標註）</p>
+
+  <div class="grid sm:grid-cols-2 gap-4 mt-6">
+    <!-- 海南雞飯 -->
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🍗"><img loading="lazy" src="https://source.unsplash.com/800x450/?hainanese-chicken-rice" onerror="this.parentElement.classList.add('no-img')"><figcaption>海南雞飯</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-aqua/20 text-sg-deep">👦 Mick 友善</span><span class="chip bg-sg-sun/20 text-sg-deep">⭐ 必吃</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">海南雞飯</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">白斬雞 + 雞油飯。沾 <b>三種醬：辣椒、薑蓉、黑醬油</b>（Mick 可純吃雞肉白飯）。</p>
+        <div class="text-xs text-sg-deep/60 mt-2 space-y-1">
+          <div>📍 <b>天天海南雞飯</b> · Maxwell Food Centre #01-10</div>
+          <div>📍 <b>文東記</b> · Alexandra Village / East Coast</div>
+          <div>💰 SGD 5–8 / 份</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 辣椒蟹 -->
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🦀"><img loading="lazy" src="https://source.unsplash.com/800x450/?chili-crab,seafood" onerror="this.parentElement.classList.add('no-img')"><figcaption>辣椒蟹</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-red/15 text-sg-red">🌶 辣</span><span class="chip bg-sg-sun/20 text-sg-deep">⭐ 必吃</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">辣椒蟹</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">蛋花番茄辣醬 + 螃蟹，配<b>小饅頭沾醬</b>是精髓。也可點<b>胡椒蟹（不辣）</b>給 Mick。</p>
+        <div class="text-xs text-sg-deep/60 mt-2 space-y-1">
+          <div>📍 <b>Jumbo Seafood</b> · Riverside Point（Clarke Quay）</div>
+          <div>📍 <b>無招牌</b> · Geylang</div>
+          <div>💰 SGD 80–120 / 隻（半隻可點）</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 肉骨茶 -->
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🍲"><img loading="lazy" src="https://source.unsplash.com/800x450/?bak-kut-teh,soup" onerror="this.parentElement.classList.add('no-img')"><figcaption>肉骨茶</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-aqua/20 text-sg-deep">👦 Mick 友善</span><span class="chip bg-sg-sun/20 text-sg-deep">⭐ 必吃</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">肉骨茶</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">胡椒排骨湯 + 白飯 + 油條。<b>原味</b>不辣，兒童版可告知少胡椒。</p>
+        <div class="text-xs text-sg-deep/60 mt-2 space-y-1">
+          <div>📍 <b>松發肉骨茶</b> · Clarke Quay / New Bridge Rd</div>
+          <div>📍 <b>黃亞細</b> · Balestier（本地人推薦）</div>
+          <div>💰 SGD 8–12 / 份</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 叻沙 -->
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🍜"><img loading="lazy" src="https://source.unsplash.com/800x450/?laksa,noodles" onerror="this.parentElement.classList.add('no-img')"><figcaption>加東叻沙</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-red/15 text-sg-red">🌶 微辣</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">加東叻沙</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">椰奶咖哩湯麵 + 蝦蛤蜊。用<b>湯匙而不是筷子</b>（麵已切斷）。</p>
+        <div class="text-xs text-sg-deep/60 mt-2 space-y-1">
+          <div>📍 <b>328 Katong Laksa</b> · East Coast</div>
+          <div>💰 SGD 6–10 / 碗</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 沙嗲 -->
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🍢"><img loading="lazy" src="https://source.unsplash.com/800x450/?satay,skewer" onerror="this.parentElement.classList.add('no-img')"><figcaption>沙嗲</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-aqua/20 text-sg-deep">👦 Mick 友善</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">沙嗲 Satay</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">炭烤肉串 + 花生醬。Mick 可吃<b>雞肉串不沾醬</b>。</p>
+        <div class="text-xs text-sg-deep/60 mt-2 space-y-1">
+          <div>📍 <b>Lau Pa Sat 沙嗲街</b> · 夜間 19:00 後</div>
+          <div>📍 <b>Satay by the Bay</b> · Gardens by the Bay</div>
+          <div>💰 SGD 0.8 – 1.2 / 串</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 咖椰吐司 -->
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🥐"><img loading="lazy" src="https://source.unsplash.com/800x450/?kaya-toast,breakfast" onerror="this.parentElement.classList.add('no-img')"><figcaption>咖椰吐司</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-aqua/20 text-sg-deep">👦 Mick 最愛</span><span class="chip bg-sg-sun/20 text-sg-deep">🌅 早餐</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">咖椰吐司 + 半熟蛋</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">厚片吐司夾椰漿果醬 + 奶油 + 半熟蛋沾醬油胡椒。Mick 絕對愛。</p>
+        <div class="text-xs text-sg-deep/60 mt-2 space-y-1">
+          <div>📍 <b>亞坤 Ya Kun Kaya Toast</b> · 全島分店</div>
+          <div>📍 <b>土司工坊 Toast Box</b></div>
+          <div>💰 SGD 5–8 / 套餐</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 印度煎餅 -->
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🥞"><img loading="lazy" src="https://source.unsplash.com/800x450/?roti-prata,indian-bread" onerror="this.parentElement.classList.add('no-img')"><figcaption>印度煎餅 Roti Prata</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-aqua/20 text-sg-deep">👦 Mick 友善</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">Roti Prata</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">印度薄餅沾咖哩 / 糖。<b>雞蛋口味</b>或<b>起司口味</b>給 Mick。</p>
+        <div class="text-xs text-sg-deep/60 mt-2 space-y-1">
+          <div>📍 <b>The Prata Place</b> · Upper Thomson</div>
+          <div>📍 <b>Springleaf Prata Place</b></div>
+          <div>💰 SGD 1.5–4 / 片</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 榴槤 -->
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🥭"><img loading="lazy" src="https://source.unsplash.com/800x450/?durian,fruit" onerror="this.parentElement.classList.add('no-img')"><figcaption>榴槤</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-sun/20 text-sg-deep">🌟 8 月高峰</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">榴槤（D24 / 貓山王）</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">8 月是旺季。<b>貓山王</b>最貴最濃，<b>D24</b>入門。</p>
+        <div class="text-xs text-sg-deep/60 mt-2 space-y-1">
+          <div>📍 <b>Geylang Lorong 24A</b> · 夜市整條街</div>
+          <div>📍 <b>Combat Durian</b> · Balestier</div>
+          <div>💰 SGD 15–30 / 公斤（貓山王）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 熟食中心 -->
+  <div class="card rounded-2xl p-5 mt-6">
+    <h3 class="font-display font-bold">🏪 熟食中心 Hawker 地圖</h3>
+    <div class="grid sm:grid-cols-2 gap-3 mt-3 text-sm">
+      <div><b>Maxwell Food Centre</b> · Chinatown · 天天海南雞飯</div>
+      <div><b>Lau Pa Sat</b> · 市中心 · 夜間沙嗲街</div>
+      <div><b>Newton Food Centre</b> · Orchard 北 · 辣椒蟹排檔</div>
+      <div><b>Tiong Bahru Market</b> · 文青風 · 水粿、釀豆腐</div>
+      <div><b>Old Airport Road Food Centre</b> · 本地人推薦</div>
+      <div><b>Chinatown Complex</b> · 全島最大，攤位超多</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PANEL: ATTRACTIONS ========== -->
+<section data-panel="attractions" class="px-5 sm:px-8 py-8">
+  <span class="chip bg-sg-aqua/20 text-sg-deep">Attractions</span>
+  <h2 class="font-display font-extrabold text-3xl mt-2">📍 景點 · 地標 · 建築</h2>
+  <p class="text-sg-deep/70 text-sm mt-1">親子 · 文化 · 夜景 · 購物</p>
+
+  <div class="grid sm:grid-cols-2 gap-4 mt-6">
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🌃"><img loading="lazy" src="https://source.unsplash.com/800x450/?marina-bay-sands,night" onerror="this.parentElement.classList.add('no-img')"><figcaption>Marina Bay Sands</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-red/15 text-sg-red">夜景</span><span class="chip bg-sg-sun/20 text-sg-deep">地標</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">濱海灣金沙</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">三棟塔樓頂部托著一艘船。57 樓 SkyPark 觀景台 SGD 32，或到金沙商場 River 端看 <b>Spectra 免費水舞秀</b>（每晚 20:00 / 21:00）。</p>
+      </div>
+    </div>
+
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🌳"><img loading="lazy" src="https://source.unsplash.com/800x450/?supertree,gardens" onerror="this.parentElement.classList.add('no-img')"><figcaption>Gardens by the Bay</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-aqua/20 text-sg-deep">親子</span><span class="chip bg-sg-sun/20 text-sg-deep">必去</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">濱海灣花園</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">超級樹叢林 + 雲霧林 + 花穹。<b>兒童戲水花園免費</b>（帶泳衣）。超級樹 19:45 / 20:45 有 Garden Rhapsody 免費燈光秀。</p>
+      </div>
+    </div>
+
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🦁"><img loading="lazy" src="https://source.unsplash.com/800x450/?merlion,singapore" onerror="this.parentElement.classList.add('no-img')"><figcaption>Merlion Park</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-red/15 text-sg-red">地標</span><span class="chip bg-sg-sun/20 text-sg-deep">免費</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">魚尾獅公園</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">新加坡國家象徵。白天適合拍照，晚上配金沙燈光更美。附近就是濱海藝術中心（榴槤造型建築）。</p>
+      </div>
+    </div>
+
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🎢"><img loading="lazy" src="https://source.unsplash.com/800x450/?universal-studios,theme-park" onerror="this.parentElement.classList.add('no-img')"><figcaption>Universal Studios Singapore</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-aqua/20 text-sg-deep">親子</span><span class="chip bg-sg-red/15 text-sg-red">要門票</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">環球影城 USS</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">聖淘沙親子首選。5 歲適合：芝麻街、Madagascar、Far Far Away、Minion Land。門票 SGD 83（兒童 SGD 62）。</p>
+      </div>
+    </div>
+
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🦩"><img loading="lazy" src="https://source.unsplash.com/800x450/?flamingo,zoo" onerror="this.parentElement.classList.add('no-img')"><figcaption>Singapore Zoo</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-aqua/20 text-sg-deep">親子</span><span class="chip bg-sg-sun/20 text-sg-deep">必去</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">新加坡動物園</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">世界級開放式設計。與紅毛猩猩共進早餐是招牌。搭配 <b>River Wonders</b>（熊貓）買 2-Park Pass 最划算。</p>
+      </div>
+    </div>
+
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🎨"><img loading="lazy" src="https://source.unsplash.com/800x450/?teamlab,museum" onerror="this.parentElement.classList.add('no-img')"><figcaption>ArtScience Museum</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-aqua/20 text-sg-deep">親子</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">ArtScience Museum</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">蓮花造型建築。<b>Future World</b> 特展互動光影最受歡迎，水晶宇宙、畫畫變立體動物，Mick 會玩瘋。</p>
+      </div>
+    </div>
+
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🏮"><img loading="lazy" src="https://source.unsplash.com/800x450/?chinatown,lanterns" onerror="this.parentElement.classList.add('no-img')"><figcaption>牛車水 Chinatown</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-sun/20 text-sg-deep">文化</span><span class="chip bg-sg-sun/20 text-sg-deep">免費</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">牛車水 · 佛牙寺</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">四層樓中式佛寺，頂樓<b>萬佛金塔</b>壯觀。旁邊是 Maxwell 熟食中心，無縫接午餐。</p>
+      </div>
+    </div>
+
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🕌"><img loading="lazy" src="https://source.unsplash.com/800x450/?sultan-mosque,singapore" onerror="this.parentElement.classList.add('no-img')"><figcaption>甘榜格南 · 哈芝巷</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-sun/20 text-sg-deep">文化</span><span class="chip bg-sg-red/15 text-sg-red">拍照</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">甘榜格南 · 哈芝巷</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">蘇丹回教堂金色圓頂 + Haji Lane 彩繪塗鴉小巷。設計小店、咖啡館集中地。</p>
+      </div>
+    </div>
+
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="✈"><img loading="lazy" src="https://source.unsplash.com/800x450/?jewel-changi,waterfall" onerror="this.parentElement.classList.add('no-img')"><figcaption>Jewel Changi</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-sun/20 text-sg-deep">購物</span><span class="chip bg-sg-aqua/20 text-sg-deep">親子</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">星耀樟宜</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">世界最高室內瀑布「雨漩渦」。免費參觀，登機前/抵達後最佳利用。頂樓有 Canopy Park 天空之網（兒童付費）。</p>
+      </div>
+    </div>
+
+    <div class="card rounded-2xl overflow-hidden">
+      <figure class="ph lg" data-emoji="🛒"><img loading="lazy" src="https://source.unsplash.com/800x450/?orchard-road,shopping" onerror="this.parentElement.classList.add('no-img')"><figcaption>Orchard Road</figcaption></figure>
+      <div class="p-4">
+        <div class="flex items-center gap-2"><span class="chip bg-sg-sun/20 text-sg-deep">購物</span></div>
+        <h3 class="font-display font-bold text-lg mt-2">烏節路</h3>
+        <p class="text-sm text-sg-deep/70 mt-1">ION Orchard + Ngee Ann City（Takashimaya）為主軸。Forum 購物中心有三層 Toys"R"Us 給 Mick 逛。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card rounded-2xl p-5 mt-6">
+    <h3 class="font-display font-bold">📍 Google Maps 快速收藏</h3>
+    <p class="text-sm text-sg-deep/70 mt-1">建議建一個「新加坡 2026.08」的我的地圖，把以上景點全 Pin 起來。</p>
+    <a href="https://www.google.com/maps/d/" target="_blank" class="btn-primary mt-3">開啟 Google My Maps</a>
+  </div>
+</section>
+
+<!-- ========== PANEL: FX ========== -->
+<section data-panel="fx" class="px-5 sm:px-8 py-8">
+  <span class="chip bg-sg-red/15 text-sg-red">Currency</span>
+  <h2 class="font-display font-extrabold text-3xl mt-2">💱 TWD ↔ SGD 換匯</h2>
+  <p class="text-sg-deep/70 text-sm mt-1">每日 0:00（台灣時間）自動更新 · 來源：ECB（Frankfurter API）</p>
+
+  <div class="card rounded-3xl p-6 mt-5 bg-gradient-to-br from-sg-cream to-white">
+    <div class="flex items-center justify-between">
+      <div>
+        <div class="text-xs text-sg-deep/60">今日匯率</div>
+        <div class="font-display font-extrabold text-4xl mt-1">1 SGD = <span id="fxRate2" class="grad-text">--.--</span> TWD</div>
+        <div class="text-xs text-sg-deep/60 mt-2">上次更新：<span id="fxDate">讀取中…</span></div>
+      </div>
+      <button id="fxRefresh" class="btn-ghost">🔄 重新整理</button>
+    </div>
+  </div>
+
+  <div class="card rounded-3xl p-6 mt-4">
+    <h3 class="font-display font-bold text-lg">🧮 換算計算機</h3>
+    <div class="grid sm:grid-cols-2 gap-4 mt-4">
+      <div>
+        <label class="text-xs text-sg-deep/60 font-semibold">新加坡幣 SGD</label>
+        <div class="flex items-center gap-2 mt-1 px-3 py-3 rounded-xl border border-sg-deep/15 bg-white focus-within:ring-2 focus-within:ring-sg-aqua/40">
+          <span class="text-xl font-display font-bold text-sg-deep">S$</span>
+          <input id="inSgd" type="number" placeholder="0" class="flex-1 bg-transparent text-xl font-display font-bold outline-none" inputmode="decimal">
+        </div>
+        <div class="flex gap-1 mt-2 flex-wrap">
+          <button class="preset chip bg-sg-cream" data-sgd="10">S$10</button>
+          <button class="preset chip bg-sg-cream" data-sgd="50">S$50</button>
+          <button class="preset chip bg-sg-cream" data-sgd="100">S$100</button>
+          <button class="preset chip bg-sg-cream" data-sgd="500">S$500</button>
+          <button class="preset chip bg-sg-cream" data-sgd="1000">S$1000</button>
+        </div>
+      </div>
+      <div>
+        <label class="text-xs text-sg-deep/60 font-semibold">台幣 TWD</label>
+        <div class="flex items-center gap-2 mt-1 px-3 py-3 rounded-xl border border-sg-deep/15 bg-white focus-within:ring-2 focus-within:ring-sg-aqua/40">
+          <span class="text-xl font-display font-bold text-sg-deep">NT$</span>
+          <input id="inTwd" type="number" placeholder="0" class="flex-1 bg-transparent text-xl font-display font-bold outline-none" inputmode="decimal">
+        </div>
+        <div class="flex gap-1 mt-2 flex-wrap">
+          <button class="preset chip bg-sg-cream" data-twd="1000">NT$1,000</button>
+          <button class="preset chip bg-sg-cream" data-twd="5000">NT$5,000</button>
+          <button class="preset chip bg-sg-cream" data-twd="10000">NT$10,000</button>
+          <button class="preset chip bg-sg-cream" data-twd="50000">NT$50,000</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card rounded-2xl p-5 mt-4 bg-sg-aqua/10 border-sg-aqua/30">
+    <h3 class="font-display font-bold">💡 換匯小撇步</h3>
+    <ul class="text-sm text-sg-deep/80 mt-2 space-y-1.5">
+      <li>• 台灣銀行直接換 SGD，或在新加坡機場／<b>Mustafa Centre</b>（小印度 24 小時）換匯率最好。</li>
+      <li>• 不要在機場 ATM 急著領，先備 SGD 300 小鈔應急即可。</li>
+      <li>• 飯店、大商場普遍收信用卡；熟食中心、小販市場準備現金。</li>
+      <li>• 信用卡選擇<b>無國外消費手續費</b>的卡（如國泰世華、玉山Ubear、永豐 DAWHO）。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ========== PANEL: CHAT ========== -->
+<section data-panel="chat" class="px-5 sm:px-8 py-8">
+  <span class="chip bg-sg-deep/10 text-sg-deep">Chat</span>
+  <h2 class="font-display font-extrabold text-3xl mt-2">💬 跟 Claude 即時討論</h2>
+  <p class="text-sg-deep/70 text-sm mt-1">貼上 Anthropic API Key（只存瀏覽器 localStorage）</p>
+
+  <div class="card rounded-3xl overflow-hidden mt-5">
+    <div id="keyBar" class="p-4 bg-sg-cream/60 border-b border-sg-deep/10">
+      <div class="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
+        <label class="text-xs font-semibold text-sg-deep/70 sm:w-32">API Key</label>
+        <input id="apiKey" type="password" placeholder="sk-ant-..." class="flex-1 px-3 py-2 rounded-xl border border-sg-deep/15 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-sg-aqua/40">
+        <select id="modelSel" class="px-3 py-2 rounded-xl border border-sg-deep/15 text-sm bg-white">
+          <option value="claude-opus-4-7">opus-4-7（最強）</option>
+          <option value="claude-sonnet-4-6" selected>sonnet-4-6（快＋便宜）</option>
+          <option value="claude-haiku-4-5-20251001">haiku-4-5（最快）</option>
+        </select>
+        <button id="saveKey" class="px-4 py-2 rounded-xl bg-sg-deep text-white text-sm font-semibold">儲存</button>
+      </div>
+      <div id="keyStatus" class="text-[11px] text-sg-deep/60 mt-2">尚未輸入 Key。</div>
+    </div>
+
+    <div class="px-4 pt-4 flex flex-wrap gap-2" id="suggestions">
+      <button class="sug chip bg-white border border-sg-deep/15 hover:bg-sg-cream">🧒 Mick 那天太累，幫我重排</button>
+      <button class="sug chip bg-white border border-sg-deep/15 hover:bg-sg-cream">🌧 下雨的 Day 3 備案？</button>
+      <button class="sug chip bg-white border border-sg-deep/15 hover:bg-sg-cream">🍗 推薦不辣的餐廳</button>
+      <button class="sug chip bg-white border border-sg-deep/15 hover:bg-sg-cream">🏨 Fairmont vs Shangri-La 比較</button>
+      <button class="sug chip bg-white border border-sg-deep/15 hover:bg-sg-cream">💰 壓到 TWD 10 萬內</button>
+      <button class="sug chip bg-white border border-sg-deep/15 hover:bg-sg-cream">🎁 伴手禮推薦</button>
+    </div>
+
+    <div id="chatBox" class="p-4 h-[480px] overflow-y-auto flex flex-col gap-3">
+      <div class="msg msg-b">👋 我是你的新加坡旅伴 Claude，已經讀過整份 5 日行程、機票參考價、目前匯率。\n\n試試上面建議，或直接提問。</div>
+    </div>
+
+    <div class="p-3 border-t border-sg-deep/10 bg-white">
+      <div class="flex gap-2 items-end">
+        <textarea id="input" rows="1" placeholder="輸入訊息，Enter 送出 / Shift+Enter 換行" class="flex-1 resize-none px-3 py-2.5 rounded-xl border border-sg-deep/15 focus:outline-none focus:ring-2 focus:ring-sg-aqua/40 text-sm max-h-40"></textarea>
+        <button id="send" class="px-5 py-2.5 rounded-xl bg-gradient-to-br from-sg-red to-sg-coral text-white font-semibold shadow-soft">送出</button>
+      </div>
+      <div class="text-[11px] text-sg-deep/50 mt-2 flex justify-between">
+        <span><button id="clearChat" class="underline">清除對話</button></span>
+        <span id="charCount">0 字</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TAB BAR ========== -->
+<nav class="tabbar">
+  <div class="tabbar-row max-w-6xl mx-auto">
+    <button class="tab-btn active" data-target="home"><span class="ico">🏠</span><span>總覽</span></button>
+    <button class="tab-btn" data-target="flights"><span class="ico">✈️</span><span>機票</span></button>
+    <button class="tab-btn" data-target="itinerary"><span class="ico">🗺️</span><span>行程</span></button>
+    <button class="tab-btn" data-target="food"><span class="ico">🍜</span><span>美食</span></button>
+    <button class="tab-btn" data-target="attractions"><span class="ico">📍</span><span>景點</span></button>
+    <button class="tab-btn" data-target="fx"><span class="ico">💱</span><span>換匯</span></button>
+    <button class="tab-btn" data-target="chat"><span class="ico">💬</span><span>Claude</span></button>
+    <button class="tab-btn disabled" title="即將推出"><span class="ico">🏨</span><span>住宿</span></button>
+    <button class="tab-btn disabled" title="即將推出"><span class="ico">🚇</span><span>交通</span></button>
+    <button class="tab-btn disabled" title="即將推出"><span class="ico">📷</span><span>相簿</span></button>
+  </div>
+</nav>
+
+</div>
+
+<!-- ========== FX MODAL (from pill click) ========== -->
+<div id="fxModal" class="modal-scrim">
+  <div class="modal">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <div class="text-xs text-sg-deep/60">即時匯率</div>
+        <div class="font-display font-extrabold text-2xl">1 SGD = <span id="fxRate3" class="grad-text">--.--</span> TWD</div>
+        <div class="text-[11px] text-sg-deep/50 mt-0.5">更新於 <span id="fxDate2">--</span></div>
+      </div>
+      <button id="fxClose" class="w-9 h-9 rounded-full bg-sg-cream flex items-center justify-center text-lg">×</button>
+    </div>
+    <div class="grid sm:grid-cols-2 gap-3">
+      <div>
+        <label class="text-xs text-sg-deep/60 font-semibold">SGD</label>
+        <div class="flex items-center gap-2 mt-1 px-3 py-3 rounded-xl border border-sg-deep/15 bg-white">
+          <span class="text-xl font-display font-bold">S$</span>
+          <input id="mSgd" type="number" placeholder="0" class="flex-1 bg-transparent text-xl font-display font-bold outline-none" inputmode="decimal">
+        </div>
+      </div>
+      <div>
+        <label class="text-xs text-sg-deep/60 font-semibold">TWD</label>
+        <div class="flex items-center gap-2 mt-1 px-3 py-3 rounded-xl border border-sg-deep/15 bg-white">
+          <span class="text-xl font-display font-bold">NT$</span>
+          <input id="mTwd" type="number" placeholder="0" class="flex-1 bg-transparent text-xl font-display font-bold outline-none" inputmode="decimal">
+        </div>
+      </div>
+    </div>
+    <button onclick="go('fx')" class="btn-ghost w-full mt-4 justify-center">開啟完整換匯頁</button>
+  </div>
+</div>
+
+<script>
+/* =========================
+   TAB NAVIGATION
+   ========================= */
+function go(name) {
+  document.querySelectorAll('[data-panel]').forEach(p => p.classList.toggle('active', p.dataset.panel === name));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.target === name));
+  localStorage.setItem('sg_tab', name);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.querySelectorAll('.tab-btn:not(.disabled)').forEach(b => b.onclick = () => go(b.dataset.target));
+document.querySelectorAll('.tab-btn.disabled').forEach(b => b.onclick = (e) => { e.preventDefault(); alert('🚧 即將推出'); });
+
+(function restoreTab(){
+  const t = localStorage.getItem('sg_tab');
+  if (t) go(t);
+})();
+
+/* =========================
+   EXPAND ALL (Itinerary)
+   ========================= */
+function expandAll(open) {
+  document.querySelectorAll('#days details').forEach(d => d.open = open);
+}
+
+/* =========================
+   EXCHANGE RATE
+   ========================= */
+const FX_LS = 'sg_fx_cache';
+async function fetchFx(force = false) {
+  const cache = JSON.parse(localStorage.getItem(FX_LS) || 'null');
+  const today = new Date().toLocaleDateString('sv-SE'); // YYYY-MM-DD in local TZ
+  if (!force && cache && cache.date === today && cache.rate) {
+    return applyFx(cache.rate, cache.date, cache.fetchedAt);
+  }
+  try {
+    const r = await fetch('https://api.frankfurter.app/latest?from=SGD&to=TWD');
+    const data = await r.json();
+    const rate = data?.rates?.TWD;
+    if (!rate) throw new Error('no rate');
+    const payload = { rate, date: data.date || today, fetchedAt: new Date().toISOString(), localDay: today };
+    localStorage.setItem(FX_LS, JSON.stringify(payload));
+    applyFx(rate, payload.date, payload.fetchedAt);
+  } catch (e) {
+    // fallback to cached or static value
+    if (cache?.rate) applyFx(cache.rate, cache.date, cache.fetchedAt);
+    else applyFx(23.5, today, null);
+  }
+}
+function applyFx(rate, date, fetchedAt) {
+  window.FX_RATE = rate;
+  const rStr = Number(rate).toFixed(3);
+  document.getElementById('fxRate').textContent = rStr;
+  const el2 = document.getElementById('fxRate2'); if (el2) el2.textContent = rStr;
+  const el3 = document.getElementById('fxRate3'); if (el3) el3.textContent = rStr;
+  const fetchedStr = fetchedAt ? new Date(fetchedAt).toLocaleString('zh-TW', { hour12: false }) : date;
+  const d1 = document.getElementById('fxDate'); if (d1) d1.textContent = fetchedStr;
+  const d2 = document.getElementById('fxDate2'); if (d2) d2.textContent = fetchedStr;
+  updateFlightSgd();
+  recalcCalcFromSgd();
+}
+function updateFlightSgd() {
+  if (!window.FX_RATE) return;
+  const jxLow = 18000, jxHi = 26000, brLow = 17000, brHi = 24000;
+  const jxEl = document.querySelector('#jxSgd span');
+  const brEl = document.querySelector('#brSgd span');
+  if (jxEl) jxEl.textContent = `${Math.round(jxLow/FX_RATE)} – ${Math.round(jxHi/FX_RATE)}`;
+  if (brEl) brEl.textContent = `${Math.round(brLow/FX_RATE)} – ${Math.round(brHi/FX_RATE)}`;
+}
+
+/* Daily 0:00 check: if local day changed, refresh */
+(function scheduleDailyFx(){
+  fetchFx(false);
+  const now = new Date();
+  const next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 5);
+  const ms = next - now;
+  setTimeout(() => { fetchFx(true); scheduleDailyFx(); }, ms);
+})();
+
+document.getElementById('fxRefresh')?.addEventListener('click', () => fetchFx(true));
+
+/* FX Pill → Modal */
+const fxModal = document.getElementById('fxModal');
+document.getElementById('fxPill').onclick = () => fxModal.classList.add('open');
+document.getElementById('fxClose').onclick = () => fxModal.classList.remove('open');
+fxModal.addEventListener('click', e => { if (e.target === fxModal) fxModal.classList.remove('open'); });
+
+/* =========================
+   FX CALCULATOR
+   ========================= */
+function recalcCalcFromSgd() {
+  const s = parseFloat(document.getElementById('inSgd')?.value);
+  if (!isNaN(s) && window.FX_RATE) document.getElementById('inTwd').value = (s * FX_RATE).toFixed(2);
+}
+document.getElementById('inSgd')?.addEventListener('input', e => {
+  const v = parseFloat(e.target.value);
+  document.getElementById('inTwd').value = isNaN(v) ? '' : (v * (window.FX_RATE || 23.5)).toFixed(2);
+});
+document.getElementById('inTwd')?.addEventListener('input', e => {
+  const v = parseFloat(e.target.value);
+  document.getElementById('inSgd').value = isNaN(v) ? '' : (v / (window.FX_RATE || 23.5)).toFixed(2);
+});
+document.querySelectorAll('.preset').forEach(b => b.onclick = () => {
+  if (b.dataset.sgd) { document.getElementById('inSgd').value = b.dataset.sgd; document.getElementById('inSgd').dispatchEvent(new Event('input')); }
+  if (b.dataset.twd) { document.getElementById('inTwd').value = b.dataset.twd; document.getElementById('inTwd').dispatchEvent(new Event('input')); }
+});
+
+/* Modal calc */
+document.getElementById('mSgd')?.addEventListener('input', e => {
+  const v = parseFloat(e.target.value);
+  document.getElementById('mTwd').value = isNaN(v) ? '' : (v * (window.FX_RATE || 23.5)).toFixed(2);
+});
+document.getElementById('mTwd')?.addEventListener('input', e => {
+  const v = parseFloat(e.target.value);
+  document.getElementById('mSgd').value = isNaN(v) ? '' : (v / (window.FX_RATE || 23.5)).toFixed(2);
+});
+
+/* =========================
+   FLIGHT DEEP LINKS
+   ========================= */
+function yymmdd(d) {
+  return d.replace(/-/g, '').slice(2); // 2026-08-10 -> 260810
+}
+function buildFlightLinks() {
+  const dep = document.getElementById('flDep').value || '2026-08-10';
+  const ret = document.getElementById('flRet').value || '2026-08-14';
+  const pax = document.getElementById('flPax').value || '2-1';
+  const cls = document.getElementById('flCls').value || 'economy';
+  const [adt, chd] = pax.split('-').map(Number);
+
+  const skyDepart = yymmdd(dep), skyReturn = yymmdd(ret);
+  // Starlux (JX)
+  const jxSky  = `https://www.skyscanner.com.tw/transport/flights/khh/sin/${skyDepart}/${skyReturn}/?adultsv2=${adt}&childrenv2=${chd}&cabinclass=${cls}&airlines=JX&rtn=1`;
+  const jxTrip = `https://www.trip.com/flights/showfarefirst?dcity=khh&acity=sin&ddate=${dep}&rdate=${ret}&flighttype=rt&class=${cls === 'economy' ? 'y' : cls === 'business' ? 'c' : 'w'}&quantity=${adt}&childqty=${chd}`;
+  const jxGf   = `https://www.google.com/travel/flights?q=KHH%20to%20SIN%20Starlux%20${dep}%20return%20${ret}%20${adt}%20adults%20${chd}%20child`;
+  document.getElementById('jxSky').href = jxSky;
+  document.getElementById('jxTrip').href = jxTrip;
+  document.getElementById('jxGf').href = jxGf;
+
+  // EVA (BR)
+  const brSky  = `https://www.skyscanner.com.tw/transport/flights/khh/sin/${skyDepart}/${skyReturn}/?adultsv2=${adt}&childrenv2=${chd}&cabinclass=${cls}&airlines=BR&rtn=1`;
+  const brTrip = `https://www.trip.com/flights/showfarefirst?dcity=khh&acity=sin&ddate=${dep}&rdate=${ret}&flighttype=rt&class=${cls === 'economy' ? 'y' : cls === 'business' ? 'c' : 'w'}&quantity=${adt}&childqty=${chd}&airline=BR`;
+  const brGf   = `https://www.google.com/travel/flights?q=KHH%20to%20SIN%20EVA%20Air%20${dep}%20return%20${ret}%20${adt}%20adults%20${chd}%20child`;
+  document.getElementById('brSky').href = brSky;
+  document.getElementById('brTrip').href = brTrip;
+  document.getElementById('brGf').href = brGf;
+
+  // All airlines
+  const allSky  = `https://www.skyscanner.com.tw/transport/flights/khh/sin/${skyDepart}/${skyReturn}/?adultsv2=${adt}&childrenv2=${chd}&cabinclass=${cls}&rtn=1`;
+  const allTrip = `https://www.trip.com/flights/showfarefirst?dcity=khh&acity=sin&ddate=${dep}&rdate=${ret}&flighttype=rt&class=${cls === 'economy' ? 'y' : cls === 'business' ? 'c' : 'w'}&quantity=${adt}&childqty=${chd}`;
+  const allGf   = `https://www.google.com/travel/flights?q=KHH%20to%20SIN%20${dep}%20return%20${ret}%20${adt}%20adults%20${chd}%20child`;
+  const allKayak = `https://www.kayak.com.tw/flights/KHH-SIN/${dep}/${ret}/${adt}adults/children-${chd}`;
+  document.getElementById('allSky').href = allSky;
+  document.getElementById('allTrip').href = allTrip;
+  document.getElementById('allGf').href = allGf;
+  document.getElementById('allKayak').href = allKayak;
+}
+['flDep','flRet','flPax','flCls'].forEach(id => document.getElementById(id)?.addEventListener('change', buildFlightLinks));
+buildFlightLinks();
+
+/* =========================
+   CLAUDE CHAT
+   ========================= */
+const KEY_LS = 'sg_chat_key';
+const MODEL_LS = 'sg_chat_model';
+const MSG_LS = 'sg_chat_msgs';
+const apiKeyEl = document.getElementById('apiKey');
+const modelSel = document.getElementById('modelSel');
+const keyStatus = document.getElementById('keyStatus');
+const chatBox = document.getElementById('chatBox');
+const input = document.getElementById('input');
+const sendBtn = document.getElementById('send');
+const charCount = document.getElementById('charCount');
+
+(function restoreChat(){
+  const k = localStorage.getItem(KEY_LS);
+  if (k) { apiKeyEl.value = k; keyStatus.textContent = '✓ 已儲存 Key'; }
+  const m = localStorage.getItem(MODEL_LS);
+  if (m) modelSel.value = m;
+  const saved = JSON.parse(localStorage.getItem(MSG_LS) || '[]');
+  if (saved.length) {
+    chatBox.innerHTML = '';
+    saved.forEach(m => addBubble(m.role, m.content, false));
+  }
+})();
+
+document.getElementById('saveKey').onclick = () => {
+  const v = apiKeyEl.value.trim();
+  if (!v.startsWith('sk-ant-')) { keyStatus.textContent = '⚠ Key 格式不對（應以 sk-ant- 開頭）'; return; }
+  localStorage.setItem(KEY_LS, v);
+  localStorage.setItem(MODEL_LS, modelSel.value);
+  keyStatus.textContent = '✓ 已儲存';
+};
+modelSel.onchange = () => localStorage.setItem(MODEL_LS, modelSel.value);
+document.getElementById('clearChat').onclick = () => {
+  if (!confirm('清除所有對話？')) return;
+  localStorage.removeItem(MSG_LS);
+  chatBox.innerHTML = '<div class="msg msg-b">👋 新的對話開始。</div>';
+};
+
+document.querySelectorAll('.sug').forEach(b => b.onclick = () => {
+  input.value = b.textContent.replace(/^[^\s]+\s/, '');
+  input.focus(); autoGrow();
+});
+
+function autoGrow(){
+  input.style.height = 'auto';
+  input.style.height = Math.min(input.scrollHeight, 160) + 'px';
+  charCount.textContent = `${input.value.length} 字`;
+}
+input.addEventListener('input', autoGrow);
+input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); } });
+sendBtn.onclick = send;
+
+function addBubble(role, text, save = true) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + (role === 'user' ? 'msg-u' : 'msg-b');
+  div.textContent = text;
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
+  if (save) {
+    const arr = JSON.parse(localStorage.getItem(MSG_LS) || '[]');
+    arr.push({ role, content: text });
+    localStorage.setItem(MSG_LS, JSON.stringify(arr));
+  }
+  return div;
+}
+function typingIndicator() {
+  const div = document.createElement('div');
+  div.className = 'msg msg-b';
+  div.innerHTML = '<span class="inline-flex gap-1 items-center"><span class="dot">●</span><span class="dot">●</span><span class="dot">●</span></span>';
+  chatBox.appendChild(div);
+  chatBox.scrollTop = chatBox.scrollHeight;
+  return div;
+}
+
+function buildSystem() {
+  const fx = window.FX_RATE ? `1 SGD = ${FX_RATE.toFixed(3)} TWD（今日匯率）` : '匯率讀取中';
+  return `你是一位熟悉新加坡的親子旅遊顧問。
+
+旅程：2026 年 8 月 Chu Yu + 另一位家長 + Mick（5 歲）三人，高雄出發，5 天 4 夜。
+標題：獅城報復性五日遊 · YuxChuxMick
+
+五日大綱：
+Day 1 (8/10 一)：KHH → Changi → Jewel → 飯店（Fairmont/PARKROYAL/Shangri-La）→ 松發肉骨茶 → Spectra 水舞。
+Day 2 (8/11 二)：Mandai — Singapore Zoo + River Wonders；可選 Night Safari。
+Day 3 (8/12 三)：聖淘沙 — USS + Skyline Luge + 西樂索海灘 + Wings of Time。
+Day 4 (8/13 四)：Gardens by the Bay + ArtScience Future World + Jumbo 辣椒蟹 + MBS SkyPark。
+Day 5 (8/14 五)：牛車水佛牙寺 → Maxwell 天天海南雞飯 → Orchard → Jewel → 回 KHH。
+
+機票參考（8 月來回經濟艙/人）：
+- 星宇 JX（KHH 直飛 SIN）：TWD 18,000 – 26,000
+- 長榮 BR（KHH 轉 TPE 或 TPE 直飛）：TWD 17,000 – 24,000
+預算：三人含機票 TWD 11–12 萬。
+${fx}
+
+回覆原則：
+1. 繁體中文、親切、具體、可執行。
+2. 永遠考量 5 歲 Mick 的體力、飲食（不辣）、安全、推車需求。
+3. 價格用 SGD，同時附 TWD 換算。
+4. 票價/時間可能過時 → 提醒使用者官網最終確認。
+5. 回覆 6 段內，清單優先。`;
+}
+
+async function send() {
+  const text = input.value.trim();
+  if (!text) return;
+  const key = localStorage.getItem(KEY_LS);
+  if (!key) { alert('請先在上方貼上 Anthropic API Key。'); apiKeyEl.focus(); return; }
+
+  addBubble('user', text);
+  input.value = ''; autoGrow();
+  sendBtn.disabled = true;
+  const ind = typingIndicator();
+
+  const history = JSON.parse(localStorage.getItem(MSG_LS) || '[]')
+    .filter(m => m.role === 'user' || m.role === 'assistant')
+    .slice(-20);
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true',
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: localStorage.getItem(MODEL_LS) || 'claude-sonnet-4-6',
+        max_tokens: 1500,
+        system: buildSystem(),
+        messages: history.map(m => ({ role: m.role, content: m.content })),
+      }),
+    });
+    const data = await res.json();
+    ind.remove();
+    if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
+    const reply = data.content?.map(c => c.text).join('\n') || '（空白回覆）';
+    addBubble('assistant', reply);
+  } catch (e) {
+    ind.remove();
+    addBubble('assistant', '⚠ 連線錯誤：' + e.message);
+  } finally {
+    sendBtn.disabled = false;
+    input.focus();
+  }
+}
+</script>
+
+</body>
+</html>
