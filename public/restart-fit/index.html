@@ -1,0 +1,1753 @@
+<!doctype html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#FF7A59" />
+<title>Restart Fit · 重啟訓練</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..700&family=Noto+Sans+TC:wght@300;400;500;700&family=Manrope:wght@500;600;700&display=swap" rel="stylesheet" />
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          fit: {
+            coral: "#FF7A59",
+            peach: "#FFB199",
+            mist:  "#FFE8DD",
+            cream: "#FFF6EF",
+            sage:  "#5DBB7E",
+            mint:  "#D4F2DD",
+            sky:   "#7FB7E0",
+            ink:   "#2A2438",
+            soft:  "#5C546B",
+            mute:  "#8E8898",
+            line:  "#F0E8E0",
+          },
+        },
+        fontFamily: {
+          display: ["Bricolage Grotesque", "Noto Sans TC", "sans-serif"],
+          sans:    ["Noto Sans TC", "Manrope", "sans-serif"],
+          mono:    ["Manrope", "monospace"],
+        },
+        boxShadow: {
+          "fit-sm":  "0 2px 8px -2px rgba(255, 122, 89, 0.15)",
+          "fit-md":  "0 8px 24px -8px rgba(255, 122, 89, 0.22)",
+          "fit-lg":  "0 16px 40px -12px rgba(255, 122, 89, 0.28)",
+          "card":    "0 1px 3px rgba(42, 36, 56, 0.04), 0 4px 16px -4px rgba(42, 36, 56, 0.06)",
+        },
+      },
+    },
+  };
+</script>
+<style>
+  html, body { background: #FFF9F4; color: #2A2438; font-family: "Noto Sans TC", "Manrope", sans-serif; }
+  body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  .font-display { font-family: "Bricolage Grotesque", "Noto Sans TC", sans-serif; letter-spacing: -0.02em; }
+  .gradient-coral { background: linear-gradient(135deg, #FF7A59 0%, #FFB199 100%); }
+  .gradient-coral-soft { background: linear-gradient(135deg, #FFE8DD 0%, #FFF6EF 100%); }
+  .gradient-sage { background: linear-gradient(135deg, #5DBB7E 0%, #8FD3A6 100%); }
+  .gradient-text-coral { background: linear-gradient(135deg, #FF7A59, #FF5E7A); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  /* Phone frame for desktop preview */
+  .phone-frame {
+    width: 100%; max-width: 430px; height: 100dvh; max-height: 932px;
+    background: #FFF9F4; position: relative; overflow: hidden;
+    border-radius: 0;
+  }
+  @media (min-width: 768px) {
+    .phone-frame {
+      border-radius: 44px; border: 10px solid #1F1A2C;
+      box-shadow: 0 30px 80px -20px rgba(42,36,56,0.35), 0 0 0 1px rgba(0,0,0,0.04);
+    }
+    body { background: linear-gradient(135deg, #FFF6EF 0%, #FFE8DD 50%, #FFD8C2 100%); }
+  }
+  .screen { position: absolute; inset: 0; display: flex; flex-direction: column; }
+  .screen-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; }
+  .tab-active { color: #FF7A59; }
+  .pill { border-radius: 999px; }
+  .card { background: white; border-radius: 24px; box-shadow: 0 1px 3px rgba(42,36,56,0.04), 0 4px 16px -4px rgba(42,36,56,0.06); }
+  /* simple bar chart */
+  .bar { background: linear-gradient(180deg, #FF7A59, #FFB199); border-radius: 6px 6px 2px 2px; }
+  .bar-mute { background: #FFE8DD; border-radius: 6px 6px 2px 2px; }
+  /* checkbox */
+  .check {
+    width: 24px; height: 24px; border-radius: 8px; border: 2px solid #E8DED4;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: all .15s ease;
+  }
+  .check.checked { background: #FF7A59; border-color: #FF7A59; }
+  .check.checked svg { color: white; }
+  /* slide animation */
+  @keyframes slideUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .anim-up { animation: slideUp .35s ease-out both; }
+  /* progress ring */
+  .ring-bg { stroke: #FFE8DD; }
+  .ring-fg { stroke: #FF7A59; transition: stroke-dashoffset .6s ease; }
+  /* press feedback */
+  button, .pressable { transition: transform .12s ease, box-shadow .12s ease, background .15s ease; }
+  button:active, .pressable:active { transform: scale(0.97); }
+  /* chat bubble */
+  .bubble-user { background: #FF7A59; color: white; border-radius: 22px 22px 6px 22px; }
+  .bubble-ai { background: white; border-radius: 22px 22px 22px 6px; box-shadow: 0 1px 3px rgba(42,36,56,0.04), 0 2px 8px -2px rgba(42,36,56,0.06); }
+  /* sticky header */
+  .sticky-h { position: sticky; top: 0; z-index: 5; background: linear-gradient(180deg, #FFF9F4 80%, rgba(255,249,244,0)); backdrop-filter: blur(8px); }
+  /* fade-in helpers */
+  .fade-enter { opacity: 0; }
+  .fade-enter.show { opacity: 1; transition: opacity .25s ease; }
+  /* kbd */
+  kbd { font-family: "Manrope", monospace; font-size: 11px; padding: 2px 6px; border-radius: 6px; background: #F4ECE3; color: #5C546B; }
+</style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-0 md:p-6">
+<div class="phone-frame" id="app">
+
+  <!-- ━━━━━━━ Onboarding overlay ━━━━━━━ -->
+  <div id="onboarding" class="screen z-30 hidden">
+    <div class="screen-body px-6 py-8">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-2">
+          <div class="w-9 h-9 rounded-xl gradient-coral flex items-center justify-center text-white font-bold">RF</div>
+          <div class="font-display font-bold">Restart Fit</div>
+        </div>
+        <button id="skipOnboarding" class="text-sm text-fit-mute">先看 Demo</button>
+      </div>
+
+      <div id="onbStep1" class="anim-up">
+        <div class="text-3xl font-display font-bold leading-tight mb-3">嗨，<br/>歡迎重新開始 👋</div>
+        <p class="text-fit-soft leading-relaxed mb-8">
+          這不是給健身狂熱者的工具。<br/>
+          是陪你 — 從生活忙碌、沒運動半年以上 — 重新建立習慣的 AI 教練。
+        </p>
+        <div class="card p-5 mb-4">
+          <div class="text-xs text-fit-coral font-bold tracking-widest mb-2">RESTART FIT 的承諾</div>
+          <ul class="space-y-3 text-sm">
+            <li class="flex gap-3"><span class="text-fit-sage">✓</span><span>不責備、不施壓、不用罪惡感推你</span></li>
+            <li class="flex gap-3"><span class="text-fit-sage">✓</span><span>狀態差的時候，也有「最低完成版」</span></li>
+            <li class="flex gap-3"><span class="text-fit-sage">✓</span><span>陪你維持，而不是逼你完美</span></li>
+          </ul>
+        </div>
+        <button data-onb-next="2" class="w-full py-4 rounded-2xl gradient-coral text-white font-bold shadow-fit-md mt-6">開始設定 →</button>
+      </div>
+
+      <div id="onbStep2" class="anim-up hidden">
+        <div class="text-2xl font-display font-bold mb-1">你的基本狀態</div>
+        <p class="text-sm text-fit-mute mb-6">用來估算熱量與課表強度</p>
+        <div class="space-y-4">
+          <label class="block">
+            <div class="text-xs font-bold text-fit-soft mb-1.5">怎麼稱呼你？</div>
+            <input type="text" data-onb="name" placeholder="例如：阿明、小恩" class="w-full px-4 py-3 rounded-2xl bg-white border border-fit-line focus:border-fit-coral focus:outline-none" />
+          </label>
+          <label class="block">
+            <div class="text-xs font-bold text-fit-soft mb-1.5">身高（公分）</div>
+            <input type="number" data-onb="height" value="172" class="w-full px-4 py-3 rounded-2xl bg-white border border-fit-line focus:border-fit-coral focus:outline-none" />
+          </label>
+          <label class="block">
+            <div class="text-xs font-bold text-fit-soft mb-1.5">體重（公斤）</div>
+            <input type="number" data-onb="weight" value="78" class="w-full px-4 py-3 rounded-2xl bg-white border border-fit-line focus:border-fit-coral focus:outline-none" />
+          </label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="block">
+              <div class="text-xs font-bold text-fit-soft mb-1.5">年齡</div>
+              <input type="number" data-onb="age" value="32" class="w-full px-4 py-3 rounded-2xl bg-white border border-fit-line focus:border-fit-coral focus:outline-none" />
+            </label>
+            <label class="block">
+              <div class="text-xs font-bold text-fit-soft mb-1.5">性別</div>
+              <select data-onb="gender" class="w-full px-4 py-3 rounded-2xl bg-white border border-fit-line focus:border-fit-coral focus:outline-none">
+                <option value="male">男</option><option value="female">女</option><option value="other">其他</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <button data-onb-next="3" class="w-full py-4 rounded-2xl gradient-coral text-white font-bold shadow-fit-md mt-8">下一步 →</button>
+      </div>
+
+      <div id="onbStep3" class="anim-up hidden">
+        <div class="text-2xl font-display font-bold mb-1">最近的訓練狀態？</div>
+        <p class="text-sm text-fit-mute mb-6">老實說沒關係 — 這影響第一週的強度</p>
+        <div class="grid gap-3" id="onbStateOptions">
+          <button data-onb-state="zero" class="w-full text-left px-5 py-4 rounded-2xl bg-white border-2 border-fit-line">
+            <div class="font-bold">完全沒在動</div>
+            <div class="text-xs text-fit-mute mt-0.5">已經半年以上沒規律運動</div>
+          </button>
+          <button data-onb-state="rusty" class="w-full text-left px-5 py-4 rounded-2xl bg-white border-2 border-fit-line">
+            <div class="font-bold">偶爾散步</div>
+            <div class="text-xs text-fit-mute mt-0.5">沒重訓但有日常活動</div>
+          </button>
+          <button data-onb-state="returning" class="w-full text-left px-5 py-4 rounded-2xl bg-white border-2 border-fit-line">
+            <div class="font-bold">想找回過去的狀態</div>
+            <div class="text-xs text-fit-mute mt-0.5">以前練過，最近半年中斷</div>
+          </button>
+        </div>
+        <button data-onb-next="4" class="w-full py-4 rounded-2xl gradient-coral text-white font-bold shadow-fit-md mt-8">下一步 →</button>
+      </div>
+
+      <div id="onbStep4" class="anim-up hidden">
+        <div class="text-2xl font-display font-bold mb-1">每週能練幾天？</div>
+        <p class="text-sm text-fit-mute mb-6">建議 3 天就夠 — 重點是維持</p>
+        <div class="grid grid-cols-5 gap-2 mb-6" id="onbDays">
+          <button data-onb-days="2" class="py-4 rounded-xl bg-white border-2 border-fit-line font-bold">2</button>
+          <button data-onb-days="3" class="py-4 rounded-xl bg-white border-2 border-fit-coral text-fit-coral font-bold">3</button>
+          <button data-onb-days="4" class="py-4 rounded-xl bg-white border-2 border-fit-line font-bold">4</button>
+          <button data-onb-days="5" class="py-4 rounded-xl bg-white border-2 border-fit-line font-bold">5</button>
+          <button data-onb-days="6" class="py-4 rounded-xl bg-white border-2 border-fit-line font-bold">6</button>
+        </div>
+        <div class="text-xs font-bold text-fit-soft mb-2">每次能花多久？</div>
+        <div class="grid grid-cols-3 gap-2 mb-6" id="onbDuration">
+          <button data-onb-dur="20" class="py-3 rounded-xl bg-white border-2 border-fit-line text-sm font-semibold">20 分</button>
+          <button data-onb-dur="40" class="py-3 rounded-xl bg-white border-2 border-fit-coral text-fit-coral text-sm font-semibold">40 分</button>
+          <button data-onb-dur="60" class="py-3 rounded-xl bg-white border-2 border-fit-line text-sm font-semibold">60 分</button>
+        </div>
+        <div class="text-xs font-bold text-fit-soft mb-2">健身目標</div>
+        <div class="grid grid-cols-2 gap-2" id="onbGoal">
+          <button data-onb-goal="fat-loss" class="py-3 rounded-xl bg-white border-2 border-fit-coral text-fit-coral text-sm font-semibold">減脂</button>
+          <button data-onb-goal="recover" class="py-3 rounded-xl bg-white border-2 border-fit-line text-sm font-semibold">恢復體能</button>
+          <button data-onb-goal="habit" class="py-3 rounded-xl bg-white border-2 border-fit-line text-sm font-semibold">建立習慣</button>
+          <button data-onb-goal="muscle" class="py-3 rounded-xl bg-white border-2 border-fit-line text-sm font-semibold">增肌</button>
+        </div>
+        <button data-onb-next="5" class="w-full py-4 rounded-2xl gradient-coral text-white font-bold shadow-fit-md mt-8">下一步 →</button>
+      </div>
+
+      <div id="onbStep5" class="anim-up hidden">
+        <div class="text-2xl font-display font-bold mb-1">手邊有什麼器材？</div>
+        <p class="text-sm text-fit-mute mb-6">沒有也沒關係，徒手就可以</p>
+        <div class="grid grid-cols-2 gap-2 mb-6" id="onbEquip">
+          <button data-onb-equip="bw" class="py-3 px-3 rounded-xl bg-white border-2 border-fit-coral text-fit-coral text-sm font-semibold text-left">徒手</button>
+          <button data-onb-equip="db" class="py-3 px-3 rounded-xl bg-white border-2 border-fit-line text-sm font-semibold text-left">啞鈴</button>
+          <button data-onb-equip="band" class="py-3 px-3 rounded-xl bg-white border-2 border-fit-line text-sm font-semibold text-left">彈力帶</button>
+          <button data-onb-equip="gym" class="py-3 px-3 rounded-xl bg-white border-2 border-fit-line text-sm font-semibold text-left">健身房</button>
+        </div>
+
+        <div class="card p-5 mb-4 gradient-coral-soft border border-fit-peach/40">
+          <div class="text-xs text-fit-coral font-bold tracking-widest mb-2">AI 已為你安排</div>
+          <div class="font-display font-bold text-lg mb-2">12 週重啟訓練計畫</div>
+          <div class="space-y-2 text-sm">
+            <div class="flex justify-between"><span>第 1–4 週</span><span class="text-fit-mute">恢復習慣期</span></div>
+            <div class="flex justify-between"><span>第 5–8 週</span><span class="text-fit-mute">建立基礎期</span></div>
+            <div class="flex justify-between"><span>第 9–12 週</span><span class="text-fit-mute">強化期</span></div>
+          </div>
+        </div>
+
+        <button id="onbFinish" class="w-full py-4 rounded-2xl gradient-coral text-white font-bold shadow-fit-md mt-2">開始第一天 ✨</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ━━━━━━━ Tired Mode prompt ━━━━━━━ -->
+  <div id="tiredPrompt" class="screen z-20 hidden bg-black/40 backdrop-blur-sm items-end" style="display:none">
+    <div class="bg-white rounded-t-3xl w-full p-6 anim-up">
+      <div class="w-12 h-1.5 bg-fit-line rounded-full mx-auto mb-4"></div>
+      <div class="font-display font-bold text-xl mb-2">今天很累，<br/>切換最低完成版？</div>
+      <p class="text-sm text-fit-soft leading-relaxed mb-6">
+        重啟期間，「動一下勝過放假」。<br/>
+        我會幫你切到 5 分鐘版本 — 完成它，今天就算數。
+      </p>
+      <div class="card p-4 mb-4 bg-fit-cream">
+        <div class="text-xs text-fit-coral font-bold mb-2">最低完成版</div>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between"><span>深蹲</span><span class="font-bold">20 下</span></div>
+          <div class="flex justify-between"><span>伏地挺身</span><span class="font-bold">10 下</span></div>
+          <div class="flex justify-between"><span>棒式</span><span class="font-bold">30 秒</span></div>
+          <div class="flex justify-between"><span>散步</span><span class="font-bold">10 分鐘</span></div>
+        </div>
+      </div>
+      <button id="tiredYes" class="w-full py-4 rounded-2xl gradient-coral text-white font-bold mb-2">切到輕量模式</button>
+      <button id="tiredNo" class="w-full py-3 text-fit-mute text-sm">不用，我撐得住</button>
+    </div>
+  </div>
+
+  <!-- ━━━━━━━ Architecture sheet ━━━━━━━ -->
+  <div id="archSheet" class="screen z-20 hidden bg-black/40 backdrop-blur-sm items-end" style="display:none">
+    <div class="bg-white rounded-t-3xl w-full max-h-[85vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white z-10 px-6 pt-4 pb-3 border-b border-fit-line">
+        <div class="w-12 h-1.5 bg-fit-line rounded-full mx-auto mb-3"></div>
+        <div class="flex items-center justify-between">
+          <div class="font-display font-bold text-lg">技術架構 · MVP</div>
+          <button id="archClose" class="text-fit-mute text-sm">關閉</button>
+        </div>
+      </div>
+      <div class="p-6 space-y-6 text-sm leading-relaxed">
+
+        <section>
+          <div class="text-xs font-bold tracking-widest text-fit-coral mb-2">產品定位</div>
+          <p class="text-fit-soft">「不是讓你變完美，而是幫你重新開始。」AI 健身習慣養成 App，主打陪伴型教練、低壓力、有最低完成版。</p>
+        </section>
+
+        <section>
+          <div class="text-xs font-bold tracking-widest text-fit-coral mb-2">五大頁面</div>
+          <ol class="space-y-1 text-fit-soft list-decimal list-inside">
+            <li>今日 — 訓練 + 飲食 + 累時切換</li>
+            <li>訓練 — 紀錄重量／次數／RPE</li>
+            <li>飲食 — 拍照辨識熱量／巨量</li>
+            <li>進度 — 體重、連續天數、完成率</li>
+            <li>AI 教練 — 自由問答對話</li>
+          </ol>
+        </section>
+
+        <section>
+          <div class="text-xs font-bold tracking-widest text-fit-coral mb-2">資料庫 schema（Supabase）</div>
+          <div class="card p-4 bg-fit-cream font-mono text-xs leading-relaxed text-fit-ink">
+<pre style="white-space:pre-wrap">users               -- 基本資料
+  id, email, name, height_cm, weight_kg, age, gender,
+  goal, weekly_days, session_minutes, equipment[],
+  fitness_state, created_at
+
+workouts            -- 一次訓練 (header)
+  id, user_id, date, plan_phase, total_minutes,
+  completion_pct, mode (full|low|skipped), notes
+
+exercises           -- 動作字典
+  id, name, category (push|pull|legs|core|cardio),
+  primary_muscle, equipment, demo_video_url
+
+workout_logs        -- 單一動作的所有組
+  id, workout_id, exercise_id, set_no, reps,
+  weight_kg, rpe, completed, note
+
+meals               -- 一餐 (header)
+  id, user_id, datetime, photo_url, meal_type
+
+meal_analysis       -- AI 拍照辨識結果
+  id, meal_id, items_json, kcal, protein_g,
+  carb_g, fat_g, ai_feedback
+
+ai_feedback         -- 每日 AI 回饋
+  id, user_id, date, kind (workout|meal|day),
+  content, mood_tag
+
+progress_tracking   -- 每週快照
+  id, user_id, week, weight_kg, body_fat_pct,
+  streak_days, completion_rate</pre>
+          </div>
+        </section>
+
+        <section>
+          <div class="text-xs font-bold tracking-widest text-fit-coral mb-2">Component 結構</div>
+          <div class="card p-4 bg-fit-cream font-mono text-xs leading-relaxed">
+<pre style="white-space:pre-wrap">app/restart-fit/
+  layout.tsx                  -- 底部 tab bar
+  (tabs)/
+    today/page.tsx            -- 今日首頁
+    workout/page.tsx          -- 訓練紀錄
+    food/page.tsx             -- 飲食
+    progress/page.tsx         -- 進度
+    coach/page.tsx            -- AI 教練
+  onboarding/page.tsx         -- 首次設定
+  api/
+    workout/route.ts
+    meal/route.ts
+    coach/route.ts            -- Claude 對話
+    vision/route.ts           -- GPT-4o Vision
+
+components/restart-fit/
+  TodayCard, WorkoutSetRow, RPESlider,
+  MealPhotoCapture, MacroBar, StreakRing,
+  TiredModeSheet, CoachBubble, ProgressChart</pre>
+          </div>
+        </section>
+
+        <section>
+          <div class="text-xs font-bold tracking-widest text-fit-coral mb-2">API 路由</div>
+          <ul class="space-y-1 text-fit-soft font-mono text-xs">
+            <li>POST /api/workout — 記錄一組</li>
+            <li>POST /api/meal — 上傳照片 → Vision 辨識</li>
+            <li>POST /api/coach/chat — Claude 對話</li>
+            <li>POST /api/coach/daily-feedback — 每日總結</li>
+            <li>GET  /api/plan/today — 今日課表</li>
+            <li>POST /api/plan/regenerate — 根據完成率調整</li>
+          </ul>
+        </section>
+
+        <section>
+          <div class="text-xs font-bold tracking-widest text-fit-coral mb-2">AI Workflow</div>
+          <div class="space-y-2 text-fit-soft">
+            <div><span class="font-bold text-fit-ink">陪伴語氣 system prompt</span>：禁止責備／壓迫；鼓勵維持。</div>
+            <div><span class="font-bold text-fit-ink">每日上下文注入</span>：今日課表 + 過去 7 天完成率 + 最近 3 餐 + 主觀疲勞。</div>
+            <div><span class="font-bold text-fit-ink">飲食拍照</span>：GPT-4o Vision → 食物項目 + 熱量估算（不追求 100% 精準）。</div>
+            <div><span class="font-bold text-fit-ink">課表自動調整</span>：完成率 &lt; 60% → 下週降量 15%；&gt; 90% 連 2 週 → 升量 10%。</div>
+          </div>
+        </section>
+
+        <section>
+          <div class="text-xs font-bold tracking-widest text-fit-coral mb-2">技術棧</div>
+          <ul class="space-y-1 text-fit-soft">
+            <li>前端：Next.js 14 + Tailwind（PWA）／React Native（v2）</li>
+            <li>後端：Supabase（auth + DB + storage）</li>
+            <li>AI：Anthropic Claude（對話）＋ OpenAI GPT-4o Vision（拍照）</li>
+            <li>分析：Vercel + simple cron 每週快照</li>
+          </ul>
+        </section>
+
+        <section>
+          <div class="text-xs font-bold tracking-widest text-fit-coral mb-2">擴充路線圖</div>
+          <ul class="space-y-1 text-fit-soft">
+            <li>v1 MVP — 五頁面、最低完成版、AI 對話、拍照記食</li>
+            <li>v1.1 — 連續天數、徽章、回顧週報</li>
+            <li>v1.2 — Apple Health／Google Fit 同步</li>
+            <li>v2 — 朋友圈、組隊重啟、教練模式（人類教練 dashboard）</li>
+            <li>v3 — Wearable 即時心率、智能熱身建議</li>
+          </ul>
+        </section>
+
+        <section class="pb-2">
+          <div class="text-xs font-bold tracking-widest text-fit-coral mb-2">產品核心句</div>
+          <div class="font-display text-xl font-bold gradient-text-coral">不是讓你變完美，而是幫你重新開始。</div>
+        </section>
+
+        <section class="pb-6 pt-4 border-t border-fit-line">
+          <div class="text-xs font-bold tracking-widest text-fit-mute mb-2">Demo 控制</div>
+          <button id="resetOnb" class="w-full py-3 rounded-2xl bg-fit-cream text-fit-soft font-semibold text-sm">重新填一次 Onboarding</button>
+          <div class="text-[11px] text-fit-mute mt-2">會清掉 localStorage 並重啟 demo</div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- ━━━━━━━ Main app ━━━━━━━ -->
+  <div id="main" class="screen hidden">
+
+    <!-- ─── Today screen ─── -->
+    <div data-page="today" class="screen-body px-5 pt-6 pb-28">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <div class="text-xs text-fit-mute font-mono tracking-widest uppercase" id="todayDateStr">FRI · MAY 7</div>
+          <div class="text-2xl font-display font-bold mt-1">早安，<span id="userName">Mick</span></div>
+        </div>
+        <button id="settingsBtn" class="w-10 h-10 rounded-full bg-white shadow-card flex items-center justify-center text-fit-soft">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+
+      <!-- Streak -->
+      <div class="flex items-center gap-3 mb-6">
+        <div class="card flex-1 px-4 py-3 flex items-center gap-3">
+          <div class="text-2xl">🔥</div>
+          <div>
+            <div class="text-xs text-fit-mute">連續完成</div>
+            <div class="font-bold"><span id="streakDays">5</span> 天</div>
+          </div>
+        </div>
+        <div class="card flex-1 px-4 py-3 flex items-center gap-3">
+          <div class="text-2xl">📈</div>
+          <div>
+            <div class="text-xs text-fit-mute">本週完成率</div>
+            <div class="font-bold"><span id="weekRate">80</span>%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today workout -->
+      <div class="card p-5 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <div class="text-xs text-fit-coral font-bold tracking-widest">今日訓練</div>
+            <div class="font-display font-bold text-lg mt-0.5">下半身入門 · Day 3</div>
+          </div>
+          <div class="text-right">
+            <div class="text-xs text-fit-mute">預估</div>
+            <div class="font-bold text-sm">35 分</div>
+          </div>
+        </div>
+        <div class="space-y-3" id="todayWorkoutList">
+          <!-- injected -->
+        </div>
+        <button id="goWorkoutBtn" class="w-full mt-4 py-3.5 rounded-2xl gradient-coral text-white font-bold shadow-fit-sm">開始訓練 →</button>
+      </div>
+
+      <!-- Tired mode CTA -->
+      <button id="tiredBtn" class="w-full card p-4 mb-4 flex items-center justify-between text-left">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-fit-mist flex items-center justify-center text-xl">😴</div>
+          <div>
+            <div class="font-bold text-sm">今天很累</div>
+            <div class="text-xs text-fit-mute">切到最低完成版</div>
+          </div>
+        </div>
+        <div class="text-fit-mute">→</div>
+      </button>
+
+      <!-- Today food -->
+      <div class="card p-5 mb-4">
+        <div class="flex items-center justify-between mb-3">
+          <div class="text-xs text-fit-coral font-bold tracking-widest">今日飲食</div>
+          <div class="text-xs text-fit-mute"><span id="kcalNow">820</span> / <span id="kcalGoal">2100</span> kcal</div>
+        </div>
+        <!-- macros -->
+        <div class="space-y-2.5 mb-3">
+          <div>
+            <div class="flex justify-between text-xs mb-1"><span class="text-fit-soft">蛋白質</span><span class="font-bold"><span id="proteinNow">42</span> / <span id="proteinGoal">130</span> g</span></div>
+            <div class="h-2 bg-fit-line rounded-full overflow-hidden"><div id="proteinBar" class="h-full gradient-coral" style="width:32%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1"><span class="text-fit-soft">碳水</span><span class="font-bold"><span id="carbNow">95</span> / <span id="carbGoal">220</span> g</span></div>
+            <div class="h-2 bg-fit-line rounded-full overflow-hidden"><div id="carbBar" class="h-full bg-fit-sky" style="width:43%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-xs mb-1"><span class="text-fit-soft">脂肪</span><span class="font-bold"><span id="fatNow">28</span> / <span id="fatGoal">70</span> g</span></div>
+            <div class="h-2 bg-fit-line rounded-full overflow-hidden"><div id="fatBar" class="h-full bg-fit-sage" style="width:40%"></div></div>
+          </div>
+        </div>
+        <div class="flex items-center justify-between gap-2 mb-2">
+          <div class="text-xs text-fit-mute">水量 <span class="font-bold text-fit-ink"><span id="waterNow">1.2</span> / <span id="waterGoal">2.5</span> L</span></div>
+          <div class="flex gap-1" id="waterDots">
+            <span class="w-3 h-5 rounded bg-fit-sky"></span>
+            <span class="w-3 h-5 rounded bg-fit-sky"></span>
+            <span class="w-3 h-5 rounded bg-fit-sky/30"></span>
+            <span class="w-3 h-5 rounded bg-fit-sky/30"></span>
+            <span class="w-3 h-5 rounded bg-fit-sky/30"></span>
+          </div>
+        </div>
+        <button data-go="food" class="w-full mt-3 py-3 rounded-2xl bg-fit-mist text-fit-coral font-bold text-sm">記錄一餐 +</button>
+      </div>
+
+      <!-- AI nudge -->
+      <div class="card p-5 mb-4 gradient-coral-soft border border-fit-peach/30">
+        <div class="flex items-start gap-3">
+          <div class="w-9 h-9 rounded-full gradient-coral text-white flex items-center justify-center font-bold flex-shrink-0">AI</div>
+          <div class="flex-1">
+            <div class="text-xs text-fit-coral font-bold tracking-widest mb-1">教練今日訊息</div>
+            <p id="dailyNudge" class="text-sm leading-relaxed">你昨天完成 80%，<b>對重新開始來說已經很好了</b>。今天的下半身會練到大肌群、燃脂效果不錯 — 不用拚最大重量，動作做穩比較重要。</p>
+            <button data-go="coach" class="text-xs font-bold text-fit-coral mt-2">問教練 →</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ─── Workout screen ─── -->
+    <div data-page="workout" class="screen-body px-5 pt-6 pb-28 hidden">
+      <div class="flex items-center justify-between mb-5">
+        <div>
+          <div class="text-xs text-fit-mute font-mono tracking-widest uppercase">WORKOUT</div>
+          <div class="text-2xl font-display font-bold mt-1">下半身入門</div>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="card px-3 py-2 text-xs flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-fit-coral animate-pulse"></span>
+            <span class="font-bold tabular-nums" id="timerStr">00:00</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mode banner if tired -->
+      <div id="tiredBanner" class="card p-4 mb-4 bg-fit-mint border border-fit-sage/30 hidden">
+        <div class="flex items-center gap-2 text-sm">
+          <span class="text-lg">🌿</span>
+          <div><b>輕量模式啟動中</b> · 今天動一下就好</div>
+        </div>
+      </div>
+
+      <!-- Plan toolbar -->
+      <div class="flex items-center gap-2 mb-3">
+        <button id="regenBtn" class="flex-1 py-2.5 rounded-full bg-white shadow-card text-xs font-bold border border-fit-line">↻ 換一天課表</button>
+        <button id="libraryBtn" class="flex-1 py-2.5 rounded-full bg-white shadow-card text-xs font-bold border border-fit-line">📚 動作庫</button>
+      </div>
+
+      <div class="space-y-4" id="workoutList">
+        <!-- injected by JS -->
+      </div>
+
+      <div class="card p-5 mt-4 text-center">
+        <div class="text-xs text-fit-coral font-bold tracking-widest mb-1">完成今日</div>
+        <div class="text-3xl font-display font-bold mb-1"><span id="completedCount">0</span> / <span id="totalCount">4</span></div>
+        <div class="text-sm text-fit-mute mb-4">每完成一項，AI 都會記錄</div>
+        <button id="finishWorkout" class="w-full py-3.5 rounded-2xl gradient-coral text-white font-bold shadow-fit-sm">結束訓練</button>
+      </div>
+    </div>
+
+    <!-- ─── Food screen ─── -->
+    <div data-page="food" class="screen-body px-5 pt-6 pb-28 hidden">
+      <div class="flex items-center justify-between mb-5">
+        <div>
+          <div class="text-xs text-fit-mute font-mono tracking-widest uppercase">FOOD</div>
+          <div class="text-2xl font-display font-bold mt-1">飲食紀錄</div>
+        </div>
+        <div class="text-right">
+          <div class="text-xs text-fit-mute">今日</div>
+          <div class="font-bold tabular-nums">820 kcal</div>
+        </div>
+      </div>
+
+      <!-- Photo capture -->
+      <button id="capturePhoto" class="w-full card p-6 mb-4 flex flex-col items-center justify-center text-center">
+        <div class="w-14 h-14 rounded-2xl gradient-coral flex items-center justify-center mb-3 shadow-fit-md">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </div>
+        <div class="font-display font-bold">拍張照片，AI 幫你辨識</div>
+        <div class="text-xs text-fit-mute mt-1">不用 100% 精準，方便就好</div>
+      </button>
+
+      <!-- AI analysis result (mock) -->
+      <div id="mealResult" class="card p-5 mb-4 hidden anim-up">
+        <div class="flex items-center justify-between mb-3">
+          <div class="text-xs text-fit-coral font-bold tracking-widest">AI 辨識結果</div>
+          <span class="text-xs text-fit-mute">剛剛</span>
+        </div>
+        <div class="aspect-video rounded-2xl mb-3 overflow-hidden gradient-coral-soft flex items-center justify-center text-5xl">🍱</div>
+        <div class="space-y-1.5 text-sm mb-3">
+          <div class="flex justify-between"><span class="text-fit-soft">雞胸肉（約 150g）</span><span class="font-bold">230 kcal</span></div>
+          <div class="flex justify-between"><span class="text-fit-soft">糙米飯（約 1 碗）</span><span class="font-bold">220 kcal</span></div>
+          <div class="flex justify-between"><span class="text-fit-soft">花椰菜（約 100g）</span><span class="font-bold">35 kcal</span></div>
+          <div class="flex justify-between"><span class="text-fit-soft">炒油（估）</span><span class="font-bold">90 kcal</span></div>
+        </div>
+        <div class="grid grid-cols-3 gap-2 mb-3">
+          <div class="text-center p-2 rounded-xl bg-fit-cream"><div class="text-xs text-fit-mute">蛋白質</div><div class="font-bold">42 g</div></div>
+          <div class="text-center p-2 rounded-xl bg-fit-cream"><div class="text-xs text-fit-mute">碳水</div><div class="font-bold">52 g</div></div>
+          <div class="text-center p-2 rounded-xl bg-fit-cream"><div class="text-xs text-fit-mute">脂肪</div><div class="font-bold">12 g</div></div>
+        </div>
+        <div class="p-3 rounded-2xl bg-fit-mist text-sm leading-relaxed">
+          <b class="text-fit-coral">教練回饋：</b>這餐蛋白質很不錯 👍。如果晚餐想再清爽一點，可以把油減半、多加點蔬菜。
+        </div>
+        <div class="grid grid-cols-2 gap-2 mt-3">
+          <button class="py-3 rounded-2xl bg-fit-cream text-fit-soft font-bold text-sm">微調</button>
+          <button class="py-3 rounded-2xl gradient-coral text-white font-bold text-sm">加入今日</button>
+        </div>
+      </div>
+
+      <!-- Today's meals -->
+      <div class="text-xs text-fit-mute font-bold tracking-widest mb-2 px-1">今日已紀錄</div>
+      <div class="space-y-2 mb-4">
+        <div class="card p-4 flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl gradient-coral-soft flex items-center justify-center text-2xl">🥪</div>
+          <div class="flex-1">
+            <div class="font-bold text-sm">早餐 · 蛋三明治</div>
+            <div class="text-xs text-fit-mute">08:30 · 蛋白質 22g</div>
+          </div>
+          <div class="font-bold text-sm">380</div>
+        </div>
+        <div class="card p-4 flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl gradient-coral-soft flex items-center justify-center text-2xl">☕</div>
+          <div class="flex-1">
+            <div class="font-bold text-sm">點心 · 拿鐵</div>
+            <div class="text-xs text-fit-mute">10:15 · 脂肪 14g</div>
+          </div>
+          <div class="font-bold text-sm">180</div>
+        </div>
+        <div class="card p-4 flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl gradient-coral-soft flex items-center justify-center text-2xl">🥗</div>
+          <div class="flex-1">
+            <div class="font-bold text-sm">午餐 · 雞胸沙拉</div>
+            <div class="text-xs text-fit-mute">13:00 · 蛋白質 38g</div>
+          </div>
+          <div class="font-bold text-sm">260</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Progress screen ─── -->
+    <div data-page="progress" class="screen-body px-5 pt-6 pb-28 hidden">
+      <div class="mb-5">
+        <div class="text-xs text-fit-mute font-mono tracking-widest uppercase">PROGRESS</div>
+        <div class="text-2xl font-display font-bold mt-1">你的重啟之路</div>
+      </div>
+
+      <!-- Streak ring -->
+      <div class="card p-5 mb-4 flex items-center gap-5">
+        <div class="relative w-24 h-24 flex-shrink-0">
+          <svg viewBox="0 0 80 80" class="w-full h-full -rotate-90">
+            <circle cx="40" cy="40" r="34" fill="none" class="ring-bg" stroke-width="9" />
+            <circle id="streakRing" cx="40" cy="40" r="34" fill="none" class="ring-fg" stroke-width="9" stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="35" />
+          </svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center">
+            <div class="text-2xl">🔥</div>
+            <div class="text-xs font-bold">5 天</div>
+          </div>
+        </div>
+        <div class="flex-1">
+          <div class="text-xs text-fit-coral font-bold tracking-widest mb-0.5">連續完成</div>
+          <div class="font-display font-bold text-xl">本週還差 2 天 達標</div>
+          <p class="text-xs text-fit-mute mt-1">每多一天，重啟成功率 +12%</p>
+        </div>
+      </div>
+
+      <!-- Weight chart -->
+      <div class="card p-5 mb-4">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <div class="text-xs text-fit-coral font-bold tracking-widest">體重變化</div>
+            <div class="font-display font-bold text-lg mt-0.5">78.2 kg <span class="text-xs text-fit-sage font-bold ml-1">↓ 1.4 kg</span></div>
+          </div>
+          <div class="flex gap-1 text-xs">
+            <button class="px-2.5 py-1 rounded-lg bg-fit-coral text-white font-bold">月</button>
+            <button class="px-2.5 py-1 rounded-lg text-fit-mute font-bold">3 月</button>
+            <button class="px-2.5 py-1 rounded-lg text-fit-mute font-bold">年</button>
+          </div>
+        </div>
+        <svg viewBox="0 0 280 100" class="w-full h-24">
+          <defs>
+            <linearGradient id="weightGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FF7A59" stop-opacity="0.3" />
+              <stop offset="100%" stop-color="#FF7A59" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <path d="M0,30 L40,28 L80,40 L120,38 L160,55 L200,52 L240,68 L280,72 L280,100 L0,100 Z" fill="url(#weightGrad)" />
+          <path d="M0,30 L40,28 L80,40 L120,38 L160,55 L200,52 L240,68 L280,72" stroke="#FF7A59" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+          <circle cx="280" cy="72" r="4" fill="#FF7A59" />
+          <circle cx="280" cy="72" r="8" fill="#FF7A59" opacity="0.2" />
+        </svg>
+        <div class="flex justify-between text-[10px] text-fit-mute mt-2 font-mono">
+          <span>4/7</span><span>4/14</span><span>4/21</span><span>4/28</span><span>5/5</span>
+        </div>
+      </div>
+
+      <!-- Weekly bars -->
+      <div class="card p-5 mb-4">
+        <div class="flex items-center justify-between mb-4">
+          <div class="text-xs text-fit-coral font-bold tracking-widest">本週訓練量</div>
+          <div class="text-xs text-fit-mute">完成 4 / 5 天</div>
+        </div>
+        <div class="flex items-end justify-between h-24 gap-2 mb-2">
+          <div class="flex-1 flex flex-col items-center gap-1.5"><div class="bar w-full" style="height:65%"></div><div class="text-[10px] text-fit-mute">一</div></div>
+          <div class="flex-1 flex flex-col items-center gap-1.5"><div class="bar-mute w-full" style="height:8%"></div><div class="text-[10px] text-fit-mute">二</div></div>
+          <div class="flex-1 flex flex-col items-center gap-1.5"><div class="bar w-full" style="height:80%"></div><div class="text-[10px] text-fit-mute">三</div></div>
+          <div class="flex-1 flex flex-col items-center gap-1.5"><div class="bar w-full" style="height:45%"></div><div class="text-[10px] text-fit-mute">四</div></div>
+          <div class="flex-1 flex flex-col items-center gap-1.5"><div class="bar w-full" style="height:90%"></div><div class="text-[10px] text-fit-coral font-bold">五</div></div>
+          <div class="flex-1 flex flex-col items-center gap-1.5"><div class="bar-mute w-full" style="height:8%"></div><div class="text-[10px] text-fit-mute">六</div></div>
+          <div class="flex-1 flex flex-col items-center gap-1.5"><div class="bar-mute w-full" style="height:8%"></div><div class="text-[10px] text-fit-mute">日</div></div>
+        </div>
+      </div>
+
+      <!-- Strength radar (faked) -->
+      <div class="card p-5 mb-4">
+        <div class="text-xs text-fit-coral font-bold tracking-widest mb-3">本月力量分布</div>
+        <div class="grid grid-cols-2 gap-3 text-sm">
+          <div>
+            <div class="flex justify-between mb-1"><span>下肢</span><span class="font-bold text-fit-sage">↑ 12%</span></div>
+            <div class="h-2 bg-fit-line rounded-full"><div class="h-full bg-fit-sage rounded-full" style="width:75%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between mb-1"><span>胸推</span><span class="font-bold text-fit-sage">↑ 6%</span></div>
+            <div class="h-2 bg-fit-line rounded-full"><div class="h-full bg-fit-sage rounded-full" style="width:45%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between mb-1"><span>背拉</span><span class="font-bold text-fit-mute">─</span></div>
+            <div class="h-2 bg-fit-line rounded-full"><div class="h-full bg-fit-sky rounded-full" style="width:38%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between mb-1"><span>核心</span><span class="font-bold text-fit-sage">↑ 4%</span></div>
+            <div class="h-2 bg-fit-line rounded-full"><div class="h-full bg-fit-coral rounded-full" style="width:55%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weekly recap -->
+      <div class="card p-5 mb-4 gradient-coral-soft border border-fit-peach/30">
+        <div class="flex items-start gap-3">
+          <div class="w-9 h-9 rounded-full gradient-coral text-white flex items-center justify-center font-bold flex-shrink-0">📓</div>
+          <div>
+            <div class="text-xs text-fit-coral font-bold tracking-widest mb-1">本週總結</div>
+            <p class="text-sm leading-relaxed mb-2">恭喜你！這是<b>連續第 3 週</b>達到計畫量的 80% 以上。比你重啟的第一週進步了 25%。</p>
+            <p class="text-sm leading-relaxed">建議下週把深蹲重量上 2.5 kg — 你最近 RPE 都在 6 左右，還有空間。</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ─── Coach screen ─── -->
+    <div data-page="coach" class="screen-body px-5 pt-6 pb-28 hidden">
+      <div class="mb-4">
+        <div class="text-xs text-fit-mute font-mono tracking-widest uppercase">AI COACH</div>
+        <div class="text-2xl font-display font-bold mt-1">教練在這 💪</div>
+        <p class="text-sm text-fit-soft mt-1">不是軍訓教練，是會聽你抱怨的那種</p>
+      </div>
+
+      <!-- Quick prompts (chat) -->
+      <div class="flex gap-2 overflow-x-auto no-scrollbar mb-3 -mx-5 px-5">
+        <button class="quick-prompt flex-shrink-0 px-3 py-2 rounded-full bg-white shadow-card text-xs font-semibold border border-fit-line">今天很累還要練嗎？</button>
+        <button class="quick-prompt flex-shrink-0 px-3 py-2 rounded-full bg-white shadow-card text-xs font-semibold border border-fit-line">晚餐吃什麼？</button>
+        <button class="quick-prompt flex-shrink-0 px-3 py-2 rounded-full bg-white shadow-card text-xs font-semibold border border-fit-line">最近沒動力</button>
+        <button class="quick-prompt flex-shrink-0 px-3 py-2 rounded-full bg-white shadow-card text-xs font-semibold border border-fit-line">要不要加重量？</button>
+      </div>
+
+      <!-- Adjust prompts (modify today's workout) -->
+      <div class="text-[10px] text-fit-mute font-bold tracking-widest mb-1.5 px-1">調整今日課表</div>
+      <div class="flex gap-2 overflow-x-auto no-scrollbar mb-4 -mx-5 px-5">
+        <button class="adjust-prompt flex-shrink-0 px-3 py-2 rounded-full bg-fit-mist text-fit-coral text-xs font-bold border border-fit-peach/40">今天時間只有 30 分鐘</button>
+        <button class="adjust-prompt flex-shrink-0 px-3 py-2 rounded-full bg-fit-mist text-fit-coral text-xs font-bold border border-fit-peach/40">今天肩膀怪怪的</button>
+        <button class="adjust-prompt flex-shrink-0 px-3 py-2 rounded-full bg-fit-mist text-fit-coral text-xs font-bold border border-fit-peach/40">不想做深蹲</button>
+        <button class="adjust-prompt flex-shrink-0 px-3 py-2 rounded-full bg-fit-mist text-fit-coral text-xs font-bold border border-fit-peach/40">想加強胸</button>
+        <button class="adjust-prompt flex-shrink-0 px-3 py-2 rounded-full bg-fit-mist text-fit-coral text-xs font-bold border border-fit-peach/40">我最近很累</button>
+      </div>
+
+      <!-- Chat -->
+      <div class="space-y-3" id="chatList"></div>
+
+      <!-- Input -->
+      <div class="fixed bottom-20 left-0 right-0 px-5 pointer-events-none" style="position:absolute;">
+        <div class="relative pointer-events-auto">
+          <input id="chatInput" placeholder="跟教練說一句話…" class="w-full pl-4 pr-14 py-3.5 rounded-full bg-white shadow-fit-md border border-fit-line focus:border-fit-coral focus:outline-none text-sm" />
+          <button id="chatSend" class="absolute right-1.5 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full gradient-coral text-white flex items-center justify-center">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l14-9-5 19-4-7-5-3z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── Bottom tab bar ─── -->
+    <nav class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-fit-line z-10">
+      <div class="grid grid-cols-5 px-2 pt-2 pb-[max(8px,env(safe-area-inset-bottom))]">
+        <button class="tab flex flex-col items-center gap-1 py-1.5 tab-active" data-tab="today">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+          <span class="text-[10px] font-bold">今日</span>
+        </button>
+        <button class="tab flex flex-col items-center gap-1 py-1.5 text-fit-mute" data-tab="workout">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.5 6.5L4 9l3 3-3 3 2.5 2.5L9 14l3 3 3-3 2.5 2.5L20 14l-3-3 3-3-2.5-2.5L15 8l-3-3-3 3z"/></svg>
+          <span class="text-[10px] font-bold">訓練</span>
+        </button>
+        <button class="tab flex flex-col items-center gap-1 py-1.5 text-fit-mute" data-tab="food">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 0-4 4c0 1 .5 2 1 3-3 1-5 4-5 7 0 4 3 6 8 6s8-2 8-6c0-3-2-6-5-7 .5-1 1-2 1-3a4 4 0 0 0-4-4z"/></svg>
+          <span class="text-[10px] font-bold">飲食</span>
+        </button>
+        <button class="tab flex flex-col items-center gap-1 py-1.5 text-fit-mute" data-tab="progress">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><polyline points="7,14 12,9 16,13 21,8"/></svg>
+          <span class="text-[10px] font-bold">進度</span>
+        </button>
+        <button class="tab flex flex-col items-center gap-1 py-1.5 text-fit-mute" data-tab="coach">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/></svg>
+          <span class="text-[10px] font-bold">教練</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+</div>
+
+<script>
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// State
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const DEFAULT_USER = {
+  name: "", height: 172, weight: 78, age: 32, gender: "male",
+  state: "rusty", days: 3, duration: 40, goal: "fat-loss", equip: ["bw"],
+};
+const DEMO_INTAKE = { kcal: 820, protein: 42, carb: 95, fat: 28, water: 1.2 };
+
+const state = {
+  user: { ...DEFAULT_USER },
+  tired: false,
+  // dynamic plan (fetched from /api/restart-fit/plan)
+  plan: null,           // GeneratedWorkout | null
+  weeklyPlan: [],       // {id, name, day_index, description}[]
+  nutrition: null,      // NutritionTargets | null
+  dayIndex: 1,          // which day in the rotation
+  // training log (in-memory; later → Supabase)
+  // map: exercise_id -> [{set_number, weight, reps, completed, feeling, rpe?, date}, ...]
+  setLogs: {},
+  // exercise done flag for the demo UI
+  doneFlags: {},
+  // fallback static workout (for no-API offline mode)
+  workout: {
+    full: [
+      { name: "高腳杯深蹲", target: "3 組 × 10 下", weight: "12kg", done: false, kind: "compound" },
+      { name: "羅馬尼亞硬舉", target: "3 組 × 10 下", weight: "16kg", done: false, kind: "compound" },
+      { name: "保加利亞跨步蹲", target: "2 組 × 8 下／腳", weight: "8kg", done: false, kind: "single" },
+      { name: "棒式", target: "3 組 × 40 秒", weight: "—", done: false, kind: "core" },
+    ],
+    low: [
+      { name: "深蹲（徒手）", target: "20 下", weight: "—", done: false, kind: "low" },
+      { name: "伏地挺身（可跪姿）", target: "10 下", weight: "—", done: false, kind: "low" },
+      { name: "棒式", target: "30 秒", weight: "—", done: false, kind: "low" },
+      { name: "散步", target: "10 分鐘", weight: "—", done: false, kind: "low" },
+    ],
+  },
+  workoutTimer: { started: null, raf: null },
+  chat: [
+    { role: "assistant", content: "嘿 — 我在。你今天感覺怎樣？想練、不想練、或想聊都可以。" },
+  ],
+};
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Convert demo onboarding shape → API UserTrainingPreference
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function userToPref(u) {
+  const goal =
+    u.goal === "fat-loss" ? "減脂"
+    : u.goal === "muscle" ? "增肌"
+    : u.goal === "habit" ? "恢復運動習慣"
+    : u.goal === "recover" ? "恢復運動習慣"
+    : "健康維持";
+  const equipMap = { bw: "徒手", db: "啞鈴", band: "彈力帶", gym: "機械" };
+  const equips = (u.equip || ["bw"]).map(e => equipMap[e] || e);
+  // gym 等於進健身房，加滑輪、槓鈴、機械、史密斯機等
+  if (u.equip && u.equip.includes("gym")) {
+    equips.push("滑輪", "槓鈴", "機械", "史密斯機", "板凳", "斜板", "雙槓", "引體向上桿", "T槓", "羅馬椅", "繩索", "EZ槓", "啞鈴");
+  }
+  if (!equips.includes("瑜伽墊")) equips.push("瑜伽墊");
+  return {
+    goal,
+    weekly_sessions: u.days || 3,
+    session_duration_minutes: u.duration || 60,
+    experience_level:
+      u.state === "zero" || u.state === "rusty" ? "新手" :
+      u.state === "returning" ? "中階" : "新手",
+    preferred_time_slot: "不固定",
+    available_equipment: Array.from(new Set(equips)),
+    body_weight_kg: u.weight,
+    target_weight_kg: u.weight,
+    diet_goal:
+      u.goal === "fat-loss" ? "減脂"
+      : u.goal === "muscle" ? "增肌"
+      : "維持",
+  };
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Fetch real plan from API; on failure fall back to demo data
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+async function fetchPlan(dayIndex) {
+  const pref = userToPref(state.user);
+  state.dayIndex = dayIndex || state.dayIndex || 1;
+  try {
+    const r = await fetch("/api/restart-fit/plan", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user: pref,
+        day_index: state.dayIndex,
+        body: { height_cm: state.user.height, age: state.user.age, sex: state.user.gender === "male" ? "male" : state.user.gender === "female" ? "female" : "other" },
+      }),
+    });
+    if (r.ok) {
+      const data = await r.json();
+      state.plan = data.workout || null;
+      state.weeklyPlan = data.weekly_plan || [];
+      state.nutrition = data.nutrition || null;
+    }
+  } catch (e) {
+    state.plan = null; // keep fallback
+  }
+  renderToday();
+  renderWorkout();
+}
+
+// restore saved profile
+try {
+  const saved = JSON.parse(localStorage.getItem("rf-user") || "null");
+  if (saved && typeof saved === "object") Object.assign(state.user, saved);
+} catch {}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Personalised target computation (Mifflin-St Jeor)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function computeTargets(u) {
+  const w = +u.weight || 70, h = +u.height || 170, a = +u.age || 30;
+  const bmr = u.gender === "female"
+    ? 10 * w + 6.25 * h - 5 * a - 161
+    : 10 * w + 6.25 * h - 5 * a + 5;
+  const mult = ({ 2: 1.30, 3: 1.40, 4: 1.50, 5: 1.60, 6: 1.70 })[+u.days] || 1.4;
+  const tdee = bmr * mult;
+  const goalAdj = ({ "fat-loss": -400, "recover": 0, "habit": 0, "muscle": +250 })[u.goal] || 0;
+  const kcal = Math.max(1200, Math.round((tdee + goalAdj) / 50) * 50);
+  const protein = Math.round(w * (u.goal === "muscle" ? 1.8 : 1.6));
+  const fat = Math.round(w * 0.8);
+  const carb = Math.max(80, Math.round((kcal - protein * 4 - fat * 9) / 4));
+  const water = Math.max(1.5, Math.round(w * 33 / 100) / 10);
+  return { kcal, protein, fat, carb, water };
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Onboarding
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const ob = document.getElementById("onboarding");
+const main = document.getElementById("main");
+const hasSeen = localStorage.getItem("rf-seen") === "1";
+
+function showOnboarding() { ob.classList.remove("hidden"); main.classList.add("hidden"); }
+function showMain() {
+  ob.classList.add("hidden"); main.classList.remove("hidden");
+  renderToday(); renderWorkout(); renderChat();
+  fetchPlan(); // async, will re-render when ready
+}
+
+if (hasSeen) showMain(); else showOnboarding();
+
+function collectOnboardingFields() {
+  document.querySelectorAll("[data-onb]").forEach((el) => {
+    const key = el.getAttribute("data-onb");
+    let v = el.value;
+    if (el.type === "number") v = +v || 0;
+    if (typeof v === "string") v = v.trim();
+    if (v !== "" && v != null) state.user[key] = v;
+  });
+}
+
+document.getElementById("skipOnboarding").addEventListener("click", () => {
+  localStorage.setItem("rf-seen", "1");
+  showMain();
+});
+document.getElementById("onbFinish").addEventListener("click", () => {
+  collectOnboardingFields();
+  localStorage.setItem("rf-user", JSON.stringify(state.user));
+  localStorage.setItem("rf-seen", "1");
+  showMain();
+});
+
+document.querySelectorAll("[data-onb-next]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const next = btn.getAttribute("data-onb-next");
+    document.querySelectorAll("[id^=onbStep]").forEach(s => s.classList.add("hidden"));
+    document.getElementById("onbStep" + next).classList.remove("hidden");
+  });
+});
+
+// option highlighting groups
+function singleSelect(groupSel, attr, onPick) {
+  document.querySelectorAll(groupSel + " [" + attr + "]").forEach(b => {
+    b.addEventListener("click", () => {
+      document.querySelectorAll(groupSel + " [" + attr + "]").forEach(x => {
+        x.classList.remove("border-fit-coral","text-fit-coral");
+        x.classList.add("border-fit-line");
+      });
+      b.classList.remove("border-fit-line");
+      b.classList.add("border-fit-coral","text-fit-coral");
+      if (onPick) onPick(b.getAttribute(attr));
+    });
+  });
+}
+singleSelect("#onbStateOptions", "data-onb-state", v => state.user.state = v);
+singleSelect("#onbDays", "data-onb-days", v => state.user.days = +v);
+singleSelect("#onbDuration", "data-onb-dur", v => state.user.duration = +v);
+singleSelect("#onbGoal", "data-onb-goal", v => state.user.goal = v);
+
+// equipment is multi-select
+document.querySelectorAll("#onbEquip [data-onb-equip]").forEach(b => {
+  b.addEventListener("click", () => {
+    const v = b.getAttribute("data-onb-equip");
+    const i = state.user.equip.indexOf(v);
+    if (i >= 0) {
+      state.user.equip.splice(i,1);
+      b.classList.remove("border-fit-coral","text-fit-coral");
+      b.classList.add("border-fit-line");
+    } else {
+      state.user.equip.push(v);
+      b.classList.remove("border-fit-line");
+      b.classList.add("border-fit-coral","text-fit-coral");
+    }
+  });
+});
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Tabs
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+document.querySelectorAll("[data-tab]").forEach(t => {
+  t.addEventListener("click", () => goTab(t.getAttribute("data-tab")));
+});
+document.querySelectorAll("[data-go]").forEach(b => {
+  b.addEventListener("click", () => goTab(b.getAttribute("data-go")));
+});
+
+function goTab(tab) {
+  document.querySelectorAll("[data-page]").forEach(p => {
+    p.classList.toggle("hidden", p.getAttribute("data-page") !== tab);
+  });
+  document.querySelectorAll(".tab").forEach(t => {
+    const active = t.getAttribute("data-tab") === tab;
+    t.classList.toggle("tab-active", active);
+    t.classList.toggle("text-fit-mute", !active);
+  });
+  // page-specific re-render
+  if (tab === "workout") renderWorkout();
+  if (tab === "today") renderToday();
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Today rendering (personalised)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function pct(num, den) { return Math.max(0, Math.min(100, Math.round(num / Math.max(1, den) * 100))); }
+
+function renderToday() {
+  // greeting
+  document.getElementById("userName").textContent = state.user.name || "你";
+  // date
+  const d = new Date();
+  const en = ["SUN","MON","TUE","WED","THU","FRI","SAT"];
+  document.getElementById("todayDateStr").textContent = en[d.getDay()] + " · " + (d.getMonth()+1) + "/" + d.getDate();
+
+  // macro / kcal targets — use server nutrition if available, else local compute
+  const local = computeTargets(state.user);
+  const t = state.nutrition ? {
+    kcal: state.nutrition.daily_kcal,
+    protein: state.nutrition.protein_g,
+    carb: state.nutrition.carb_g,
+    fat: state.nutrition.fat_g,
+    water: state.nutrition.water_l,
+  } : local;
+  const i = DEMO_INTAKE;
+  document.getElementById("kcalNow").textContent = i.kcal;
+  document.getElementById("kcalGoal").textContent = t.kcal;
+  document.getElementById("proteinNow").textContent = i.protein;
+  document.getElementById("proteinGoal").textContent = t.protein;
+  document.getElementById("proteinBar").style.width = pct(i.protein, t.protein) + "%";
+  document.getElementById("carbNow").textContent = i.carb;
+  document.getElementById("carbGoal").textContent = t.carb;
+  document.getElementById("carbBar").style.width = pct(i.carb, t.carb) + "%";
+  document.getElementById("fatNow").textContent = i.fat;
+  document.getElementById("fatGoal").textContent = t.fat;
+  document.getElementById("fatBar").style.width = pct(i.fat, t.fat) + "%";
+  document.getElementById("waterNow").textContent = i.water.toFixed(1);
+  document.getElementById("waterGoal").textContent = t.water.toFixed(1);
+
+  // water dots (5 segments of t.water)
+  const dots = document.getElementById("waterDots");
+  if (dots) {
+    const filled = Math.round(i.water / t.water * 5);
+    dots.innerHTML = Array.from({length: 5}, (_, k) =>
+      `<span class="w-3 h-5 rounded ${k < filled ? 'bg-fit-sky' : 'bg-fit-sky/30'}"></span>`
+    ).join("");
+  }
+
+  // daily nudge tailored to goal/state
+  const nudge = document.getElementById("dailyNudge");
+  if (nudge) {
+    const goalText = ({
+      "fat-loss": "今天的下半身會練到大肌群，燃脂效果不錯",
+      "recover":  "今天的動作節奏放慢一點沒關係，把感覺找回來",
+      "habit":    "今天先求完成，不求重量 — 重啟期最重要的就是出現",
+      "muscle":   "今天可以稍微挑戰一下重量，但動作品質第一",
+    })[state.user.goal] || "今天就動一下，比放空好";
+    const stateText = state.tired
+      ? "看到你切了輕量模式 — <b>動 5 分鐘也算贏</b>。"
+      : "你昨天完成 80%，<b>對重新開始來說已經很好了</b>。";
+    nudge.innerHTML = stateText + goalText + " — 不用拚最大重量，動作做穩比較重要。";
+  }
+
+  // today workout list — use real plan if loaded, else fallback
+  const usePlan = !state.tired && state.plan && state.plan.exercises;
+  if (usePlan) {
+    const items = state.plan.exercises;
+    // update card title
+    const titleEl = document.querySelector('[data-page="today"] .card .font-display.font-bold');
+    if (titleEl) titleEl.textContent = state.plan.title;
+    const durEl = document.querySelector('[data-page="today"] .card .text-right .font-bold');
+    if (durEl) durEl.textContent = (state.plan.estimated_duration_minutes || 35) + " 分";
+    const html = items.slice(0, 4).map((ex, idx) => `
+      <div class="flex items-center gap-3 py-2.5 ${idx>0?'border-t border-fit-line':''}">
+        <div class="w-9 h-9 rounded-xl gradient-coral-soft flex items-center justify-center text-base">💪</div>
+        <div class="flex-1 min-w-0">
+          <div class="font-bold text-sm truncate">${ex.name_zh}</div>
+          <div class="text-xs text-fit-mute">${ex.sets} 組 × ${ex.reps}${ex.rest_seconds ? ' · 休 ' + ex.rest_seconds + 's' : ''}</div>
+        </div>
+      </div>
+    `).join("");
+    const moreCount = items.length - 4;
+    document.getElementById("todayWorkoutList").innerHTML = html + (moreCount > 0 ? `<div class="text-xs text-fit-mute text-center pt-2">還有 ${moreCount} 項</div>` : "");
+    return;
+  }
+  // fallback static
+  const list = state.tired ? state.workout.low : state.workout.full;
+  const html = list.slice(0,3).map((ex, idx) => `
+    <div class="flex items-center gap-3 py-2.5 ${idx>0?'border-t border-fit-line':''}">
+      <div class="w-9 h-9 rounded-xl ${state.tired ? 'bg-fit-mint' : 'gradient-coral-soft'} flex items-center justify-center text-base">
+        ${state.tired ? '🌿' : (ex.kind === 'core' ? '🧘' : ex.kind === 'single' ? '🦵' : '💪')}
+      </div>
+      <div class="flex-1">
+        <div class="font-bold text-sm">${ex.name}</div>
+        <div class="text-xs text-fit-mute">${ex.target}${ex.weight && ex.weight !== '—' ? ' · ' + ex.weight : ''}</div>
+      </div>
+    </div>
+  `).join("");
+  const moreCount = list.length - 3;
+  document.getElementById("todayWorkoutList").innerHTML = html + (moreCount > 0 ? `<div class="text-xs text-fit-mute text-center pt-2">還有 ${moreCount} 項</div>` : "");
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Workout page rendering
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function renderWorkout() {
+  document.getElementById("tiredBanner").classList.toggle("hidden", !state.tired);
+  const wrap = document.getElementById("workoutList");
+
+  // Use real plan if available + not tired; else fallback to static
+  const usePlan = !state.tired && state.plan && state.plan.exercises;
+  const planTitle = document.querySelector('[data-page="workout"] .font-display.font-bold');
+
+  if (usePlan) {
+    if (planTitle) planTitle.textContent = state.plan.title;
+    const items = state.plan.exercises;
+    const html = items.map((ex, i) => {
+      const done = !!state.doneFlags[ex.exercise_id];
+      const logs = state.setLogs[ex.exercise_id] || [];
+      return `
+      <div class="card p-4">
+        <div class="flex items-center gap-3 mb-3">
+          <button class="check ${done ? 'checked' : ''}" data-toggle="${ex.exercise_id}">
+            ${done ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg>' : ''}
+          </button>
+          <div class="flex-1 min-w-0">
+            <div class="font-bold ${done ? 'line-through text-fit-mute' : ''} truncate">${ex.name_zh}</div>
+            <div class="text-xs text-fit-mute">${ex.sets} 組 × ${ex.reps}${ex.suggested_weight ? ' · 建議 ' + ex.suggested_weight + 'kg' : ''}${ex.rest_seconds ? ' · 休息 ' + ex.rest_seconds + 's' : ''}</div>
+          </div>
+          <button class="text-[10px] text-fit-coral font-bold whitespace-nowrap" data-swap="${ex.exercise_id}">換</button>
+        </div>
+        ${ex.note ? `<div class="text-[11px] text-fit-soft mb-2 leading-relaxed">${ex.note}</div>` : ''}
+        <div class="grid gap-2" style="grid-template-columns: repeat(${ex.sets}, 1fr);">
+          ${Array.from({length: ex.sets}, (_, si) => {
+            const log = logs[si];
+            const filled = !!log;
+            return `
+            <button data-logset="${ex.exercise_id}|${si+1}" class="rounded-xl border-2 ${filled ? 'border-fit-coral bg-fit-mist' : 'border-fit-line bg-white'} p-2 text-center pressable">
+              <div class="text-[10px] text-fit-mute">第 ${si+1} 組</div>
+              ${filled
+                ? `<div class="font-bold text-sm tabular-nums">${log.weight}kg × ${log.reps}</div>
+                   <div class="text-[9px] ${log.feeling === '疼痛不適' ? 'text-red-500' : 'text-fit-coral'}">${log.feeling}</div>`
+                : `<div class="font-bold text-sm text-fit-mute">記錄</div>
+                   <div class="text-[9px] text-fit-mute">${ex.reps}</div>`}
+            </button>`;
+          }).join('')}
+        </div>
+        ${logs.length === ex.sets ? `<div class="mt-2 p-2 rounded-xl bg-fit-mint/40 text-[11px] text-fit-soft" id="suggest-${ex.exercise_id}">下次建議計算中…</div>` : ''}
+      </div>`;
+    }).join("");
+    wrap.innerHTML = html;
+    document.getElementById("totalCount").textContent = items.length;
+    const done = items.filter(e => state.doneFlags[e.exercise_id]).length;
+    document.getElementById("completedCount").textContent = done;
+
+    // toggle full done
+    document.querySelectorAll("[data-toggle]").forEach(b => {
+      b.addEventListener("click", () => {
+        const id = b.getAttribute("data-toggle");
+        state.doneFlags[id] = !state.doneFlags[id];
+        renderWorkout();
+      });
+    });
+    // open log-set sheet
+    document.querySelectorAll("[data-logset]").forEach(b => {
+      b.addEventListener("click", () => openLogSheet(b.getAttribute("data-logset")));
+    });
+    // swap exercise
+    document.querySelectorAll("[data-swap]").forEach(b => {
+      b.addEventListener("click", () => openSwapSheet(b.getAttribute("data-swap")));
+    });
+    // recompute suggestion for any exercise that just hit all sets
+    items.forEach(ex => {
+      const logs = state.setLogs[ex.exercise_id] || [];
+      if (logs.length === ex.sets) fetchSuggestion(ex.exercise_id);
+    });
+    return;
+  }
+
+  // ─── Fallback: static demo workout ───────────────
+  const list = state.tired ? state.workout.low : state.workout.full;
+  if (planTitle) planTitle.textContent = state.tired ? "輕量模式" : "下半身入門";
+  const html = list.map((ex, i) => `
+    <div class="card p-4">
+      <div class="flex items-center gap-3 mb-3">
+        <button class="check ${ex.done ? 'checked' : ''}" data-toggle-static="${i}">
+          ${ex.done ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20,6 9,17 4,12"/></svg>' : ''}
+        </button>
+        <div class="flex-1">
+          <div class="font-bold ${ex.done ? 'line-through text-fit-mute' : ''}">${ex.name}</div>
+          <div class="text-xs text-fit-mute">${ex.target}</div>
+        </div>
+      </div>
+    </div>
+  `).join("");
+  wrap.innerHTML = html;
+  document.getElementById("totalCount").textContent = list.length;
+  const done = list.filter(e=>e.done).length;
+  document.getElementById("completedCount").textContent = done;
+  document.querySelectorAll("[data-toggle-static]").forEach(b => {
+    b.addEventListener("click", () => {
+      const i = +b.getAttribute("data-toggle-static");
+      list[i].done = !list[i].done;
+      renderWorkout();
+    });
+  });
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Log-set sheet — capture weight / reps / feeling per set
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function openLogSheet(token) {
+  const [exId, setNoStr] = token.split("|");
+  const setNo = +setNoStr;
+  const ex = state.plan?.exercises.find(e => e.exercise_id === exId);
+  if (!ex) return;
+  const last = (state.setLogs[exId] || [])[setNo - 1];
+  // create overlay
+  const overlay = document.createElement("div");
+  overlay.className = "screen z-30 bg-black/40 backdrop-blur-sm flex items-end";
+  overlay.innerHTML = `
+    <div class="bg-white rounded-t-3xl w-full p-6 anim-up max-h-[85vh] overflow-y-auto">
+      <div class="w-12 h-1.5 bg-fit-line rounded-full mx-auto mb-4"></div>
+      <div class="font-display font-bold text-lg mb-1">${ex.name_zh}</div>
+      <div class="text-xs text-fit-mute mb-4">第 ${setNo} 組 · 目標 ${ex.reps}</div>
+      <div class="grid grid-cols-2 gap-3 mb-4">
+        <label class="block">
+          <div class="text-xs font-bold text-fit-soft mb-1">重量 (kg)</div>
+          <input id="logW" type="number" step="0.5" value="${last?.weight ?? (ex.suggested_weight ?? '')}" class="w-full px-4 py-3 rounded-2xl bg-white border border-fit-line focus:border-fit-coral focus:outline-none text-lg font-bold">
+        </label>
+        <label class="block">
+          <div class="text-xs font-bold text-fit-soft mb-1">次數</div>
+          <input id="logR" type="number" value="${last?.reps ?? ''}" class="w-full px-4 py-3 rounded-2xl bg-white border border-fit-line focus:border-fit-coral focus:outline-none text-lg font-bold">
+        </label>
+      </div>
+      <div class="text-xs font-bold text-fit-soft mb-2">感受</div>
+      <div class="grid grid-cols-2 gap-2 mb-2">
+        <button data-feel="太輕鬆" class="py-3 rounded-xl bg-white border-2 border-fit-line text-sm font-semibold">太輕鬆</button>
+        <button data-feel="剛剛好" class="py-3 rounded-xl bg-white border-2 border-fit-coral text-fit-coral text-sm font-semibold">剛剛好</button>
+        <button data-feel="有點吃力" class="py-3 rounded-xl bg-white border-2 border-fit-line text-sm font-semibold">有點吃力</button>
+        <button data-feel="太重" class="py-3 rounded-xl bg-white border-2 border-fit-line text-sm font-semibold">太重</button>
+      </div>
+      <button data-feel="疼痛不適" class="w-full py-3 rounded-xl bg-red-50 border-2 border-red-200 text-red-600 text-sm font-semibold mb-3">😣 疼痛不適</button>
+      <div class="grid grid-cols-2 gap-2">
+        <button id="logCancel" class="py-3 rounded-2xl bg-fit-cream text-fit-soft font-bold">取消</button>
+        <button id="logSave" class="py-3 rounded-2xl gradient-coral text-white font-bold shadow-fit-sm">儲存</button>
+      </div>
+    </div>
+  `;
+  document.getElementById("app").appendChild(overlay);
+
+  let pickedFeel = last?.feeling || "剛剛好";
+  function setFeel(f) {
+    pickedFeel = f;
+    overlay.querySelectorAll("[data-feel]").forEach(b => {
+      const on = b.getAttribute("data-feel") === f;
+      const isPain = b.getAttribute("data-feel") === "疼痛不適";
+      if (isPain) {
+        b.className = on
+          ? "w-full py-3 rounded-xl bg-red-100 border-2 border-red-400 text-red-700 text-sm font-bold mb-3"
+          : "w-full py-3 rounded-xl bg-red-50 border-2 border-red-200 text-red-600 text-sm font-semibold mb-3";
+      } else {
+        b.className = on
+          ? "py-3 rounded-xl bg-white border-2 border-fit-coral text-fit-coral text-sm font-semibold"
+          : "py-3 rounded-xl bg-white border-2 border-fit-line text-sm font-semibold";
+      }
+    });
+  }
+  setFeel(pickedFeel);
+  overlay.querySelectorAll("[data-feel]").forEach(b => {
+    b.addEventListener("click", () => setFeel(b.getAttribute("data-feel")));
+  });
+  overlay.querySelector("#logCancel").addEventListener("click", () => overlay.remove());
+  overlay.querySelector("#logSave").addEventListener("click", () => {
+    const w = +overlay.querySelector("#logW").value || 0;
+    const r = +overlay.querySelector("#logR").value || 0;
+    const today = new Date().toISOString().slice(0, 10);
+    if (!state.setLogs[exId]) state.setLogs[exId] = [];
+    state.setLogs[exId][setNo - 1] = {
+      exercise_id: exId, date: today, set_number: setNo,
+      weight: w, reps: r, completed: true, feeling: pickedFeel,
+    };
+    overlay.remove();
+    renderWorkout();
+  });
+}
+
+// fetch progression suggestion from server
+async function fetchSuggestion(exId) {
+  const setsThisSession = (state.setLogs[exId] || []).filter(Boolean);
+  if (setsThisSession.length === 0) return;
+  try {
+    const r = await fetch("/api/restart-fit/log-set", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ exercise_id: exId, sets_this_session: setsThisSession }),
+    });
+    if (!r.ok) return;
+    const data = await r.json();
+    const el = document.getElementById("suggest-" + exId);
+    if (el && data.suggestion) {
+      const s = data.suggestion;
+      const icon = s.action === "increase_weight" ? "↑" :
+                   s.action === "decrease_weight" ? "↓" :
+                   s.action === "deload" ? "🌿" :
+                   s.action === "swap" ? "⚠️" : "→";
+      const next = s.next_weight_kg ? ` · 下次 ${s.next_weight_kg}kg` : "";
+      el.innerHTML = `<b>${icon} 下次建議：</b>${s.reason}${next}`;
+      if (s.action === "swap") el.classList.add("bg-red-50");
+    }
+  } catch (e) {}
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Swap exercise sheet — pick from same-category library
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+async function openSwapSheet(exId) {
+  const ex = state.plan?.exercises.find(e => e.exercise_id === exId);
+  if (!ex) return;
+  const overlay = document.createElement("div");
+  overlay.className = "screen z-30 bg-black/40 backdrop-blur-sm flex items-end";
+  overlay.innerHTML = `
+    <div class="bg-white rounded-t-3xl w-full p-6 anim-up max-h-[85vh] overflow-y-auto">
+      <div class="w-12 h-1.5 bg-fit-line rounded-full mx-auto mb-4"></div>
+      <div class="font-display font-bold text-lg mb-1">換掉「${ex.name_zh}」</div>
+      <div class="text-xs text-fit-mute mb-4">同類別動作中挑一個</div>
+      <div id="swapList" class="space-y-2 mb-4 text-sm">載入中…</div>
+      <button id="swapClose" class="w-full py-3 rounded-2xl bg-fit-cream text-fit-soft font-bold">取消</button>
+    </div>
+  `;
+  document.getElementById("app").appendChild(overlay);
+  overlay.querySelector("#swapClose").addEventListener("click", () => overlay.remove());
+
+  // fetch full library (we'll filter by primary muscle locally)
+  try {
+    const r = await fetch("/api/restart-fit/exercises");
+    const data = await r.json();
+    const all = data.items || [];
+    // find original meta to know its category
+    const meta = all.find(x => x.id === exId);
+    const cat = meta?.category;
+    const userEquip = userToPref(state.user).available_equipment;
+    const candidates = all
+      .filter(x => x.category === cat && x.id !== exId)
+      .filter(x => x.equipment.some(e => userEquip.includes(e) || e === "徒手"))
+      .slice(0, 12);
+    const list = overlay.querySelector("#swapList");
+    if (candidates.length === 0) {
+      list.innerHTML = `<div class="text-fit-mute text-xs">沒有找到合適的替代動作</div>`;
+      return;
+    }
+    list.innerHTML = candidates.map(c => `
+      <button data-pick="${c.id}" class="w-full text-left p-3 rounded-2xl bg-white border border-fit-line hover:border-fit-coral pressable">
+        <div class="font-bold text-sm">${c.name_zh}</div>
+        <div class="text-[11px] text-fit-mute">${c.muscle_emphasis_note}</div>
+      </button>
+    `).join("");
+    list.querySelectorAll("[data-pick]").forEach(b => {
+      b.addEventListener("click", () => {
+        const newId = b.getAttribute("data-pick");
+        const newEx = candidates.find(c => c.id === newId);
+        // mutate plan
+        const idx = state.plan.exercises.findIndex(e => e.exercise_id === exId);
+        if (idx >= 0) {
+          state.plan.exercises[idx] = {
+            exercise_id: newEx.id,
+            name_zh: newEx.name_zh,
+            sets: ex.sets,
+            reps: newEx.default_rep_range ? `${newEx.default_rep_range[0]}-${newEx.default_rep_range[1]}` : ex.reps,
+            rest_seconds: ex.rest_seconds,
+            note: `手動替換：${ex.name_zh} → ${newEx.name_zh}`,
+          };
+          // reset logs/done for the swapped slot
+          delete state.setLogs[exId];
+          delete state.doneFlags[exId];
+        }
+        overlay.remove();
+        renderWorkout();
+      });
+    });
+  } catch (e) {
+    overlay.querySelector("#swapList").innerHTML = `<div class="text-fit-mute text-xs">載入失敗</div>`;
+  }
+}
+
+// timer
+function startTimer() {
+  if (state.workoutTimer.started) return;
+  state.workoutTimer.started = Date.now();
+  function tick() {
+    const t = Date.now() - state.workoutTimer.started;
+    const s = Math.floor(t/1000);
+    const mm = String(Math.floor(s/60)).padStart(2,"0");
+    const ss = String(s%60).padStart(2,"0");
+    const el = document.getElementById("timerStr");
+    if (el) el.textContent = mm + ":" + ss;
+    state.workoutTimer.raf = requestAnimationFrame(tick);
+  }
+  tick();
+}
+function stopTimer() {
+  if (state.workoutTimer.raf) cancelAnimationFrame(state.workoutTimer.raf);
+  state.workoutTimer.started = null;
+  state.workoutTimer.raf = null;
+}
+
+document.getElementById("goWorkoutBtn").addEventListener("click", () => {
+  goTab("workout");
+  startTimer();
+});
+
+document.getElementById("finishWorkout").addEventListener("click", () => {
+  stopTimer();
+  alert("👏 完成！教練已記錄，明天見。");
+  // reset doneness for demo
+  [...state.workout.full, ...state.workout.low].forEach(e => e.done = false);
+  goTab("today");
+});
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Tired mode
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const tiredPrompt = document.getElementById("tiredPrompt");
+document.getElementById("tiredBtn").addEventListener("click", () => {
+  tiredPrompt.classList.remove("hidden"); tiredPrompt.style.display = "flex";
+});
+document.getElementById("tiredYes").addEventListener("click", () => {
+  state.tired = true;
+  tiredPrompt.classList.add("hidden"); tiredPrompt.style.display = "none";
+  renderToday(); renderWorkout();
+});
+document.getElementById("tiredNo").addEventListener("click", () => {
+  tiredPrompt.classList.add("hidden"); tiredPrompt.style.display = "none";
+});
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Food capture (mock)
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+document.getElementById("capturePhoto").addEventListener("click", () => {
+  const r = document.getElementById("mealResult");
+  r.classList.remove("hidden");
+  r.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// AI Coach — real Claude via /api/restart-fit/coach
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Fallback canned replies if API is unavailable (offline / missing key)
+const coachFallback = {
+  "今天很累還要練嗎？": "聽到了。如果你今天真的很累，切到「最低完成版」就好 — 動一下也算。比起今天逼自己，明天還能起床更重要。要不要我幫你切？",
+  "晚餐吃什麼？": "晚餐優先補蛋白：雞胸、鯖魚、雞蛋、豆腐都可以。再配一份蔬菜跟拳頭大的飯就剛好。不用很完美，方向對就行。",
+  "最近沒動力": "重啟階段這很正常。動力會下降，但「習慣」可以撐住你。建議今天只看「最低完成版」就好。完成 5 分鐘也是贏的一天。",
+  "要不要加重量？": "看你最近 RPE 都在 6–7，還有空間。下次主動作試試 +2.5 kg、其他維持。記得循序漸進。",
+  "default": "我在聽。你想多說一點嗎？訓練、飲食、心情，都可以。",
+};
+
+function bubbleNode(role, text, opts) {
+  const div = document.createElement("div");
+  if (role === "user") {
+    div.className = "flex gap-2 justify-end";
+    div.innerHTML = `<div class="bubble-user px-4 py-3 max-w-[78%] text-sm leading-relaxed"></div>`;
+    div.firstChild.textContent = text;
+  } else {
+    div.className = "flex gap-2";
+    const inner = document.createElement("div");
+    inner.className = "bubble-ai px-4 py-3 max-w-[78%] text-sm leading-relaxed";
+    if (opts && opts.typing) {
+      inner.innerHTML = `<span class="inline-flex gap-1 items-center"><span class="w-1.5 h-1.5 rounded-full bg-fit-mute animate-pulse"></span><span class="w-1.5 h-1.5 rounded-full bg-fit-mute animate-pulse" style="animation-delay:.15s"></span><span class="w-1.5 h-1.5 rounded-full bg-fit-mute animate-pulse" style="animation-delay:.3s"></span></span>`;
+    } else {
+      inner.textContent = text;
+    }
+    div.innerHTML = `<div class="w-8 h-8 rounded-full gradient-coral flex items-center justify-center text-white text-xs font-bold flex-shrink-0">AI</div>`;
+    div.appendChild(inner);
+  }
+  return div;
+}
+function renderChat() {
+  const list = document.getElementById("chatList");
+  list.innerHTML = "";
+  state.chat.forEach((m) => list.appendChild(bubbleNode(m.role === "assistant" ? "ai" : "user", m.content)));
+  const last = list.lastElementChild;
+  if (last) last.scrollIntoView({ behavior: "smooth", block: "end" });
+}
+function buildContext() {
+  const t = computeTargets(state.user);
+  const todayList = (state.tired ? state.workout.low : state.workout.full)
+    .map(e => `${e.name} (${e.target})${e.done ? " ✓" : ""}`);
+  return {
+    user: { ...state.user },
+    mode: state.tired ? "low-energy" : "full",
+    targets_today: { kcal: t.kcal, protein_g: t.protein, carb_g: t.carb, fat_g: t.fat, water_L: t.water },
+    intake_so_far: DEMO_INTAKE,
+    today_workout: todayList,
+    completion_today: (state.tired ? state.workout.low : state.workout.full).filter(e => e.done).length + "/" + (state.tired ? state.workout.low : state.workout.full).length,
+    streak_days: 5,
+    week_completion_pct: 80,
+  };
+}
+async function ask(text) {
+  state.chat.push({ role: "user", content: text });
+  const list = document.getElementById("chatList");
+  list.appendChild(bubbleNode("user", text));
+  const typing = bubbleNode("ai", "", { typing: true });
+  list.appendChild(typing);
+  typing.scrollIntoView({ behavior: "smooth", block: "end" });
+
+  let reply = coachFallback[text] || coachFallback.default;
+  try {
+    const r = await fetch("/api/restart-fit/coach", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages: state.chat.map(m => ({ role: m.role, content: m.content })),
+        context: buildContext(),
+      }),
+    });
+    if (r.ok) {
+      const data = await r.json();
+      if (data && data.reply) reply = data.reply;
+    }
+  } catch {}
+  list.removeChild(typing);
+  state.chat.push({ role: "assistant", content: reply });
+  list.appendChild(bubbleNode("ai", reply));
+  list.lastElementChild.scrollIntoView({ behavior: "smooth", block: "end" });
+}
+
+document.querySelectorAll(".quick-prompt").forEach((b) => {
+  b.addEventListener("click", () => { goTab("coach"); ask(b.textContent.trim()); });
+});
+
+// Adjust prompts → call /api/restart-fit/adjust to actually modify the workout
+async function applyAdjust(feedback) {
+  goTab("coach");
+  appendUserBubble(feedback);
+  const list = document.getElementById("chatList");
+  const typing = bubbleNode("ai", "", { typing: true });
+  list.appendChild(typing); typing.scrollIntoView({ behavior: "smooth", block: "end" });
+  try {
+    const r = await fetch("/api/restart-fit/adjust", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        workout: state.plan,
+        user: userToPref(state.user),
+        feedback,
+        day_index: state.dayIndex,
+      }),
+    });
+    list.removeChild(typing);
+    if (r.ok) {
+      const data = await r.json();
+      state.plan = data.adjusted;
+      state.setLogs = {}; state.doneFlags = {};
+      const reason = (data.adjusted?.ai_reasoning_summary) || "已為你調整今日課表。";
+      state.chat.push({ role: "assistant", content: reason });
+      list.appendChild(bubbleNode("ai", reason));
+      // visual hint to swap to workout tab
+      const cta = document.createElement("div");
+      cta.className = "flex gap-2 mt-1 ml-10";
+      cta.innerHTML = `<button id="goAdjusted" class="px-3 py-1.5 rounded-full gradient-coral text-white text-xs font-bold">看調整後課表 →</button>`;
+      list.appendChild(cta);
+      cta.querySelector("#goAdjusted").addEventListener("click", () => { goTab("workout"); renderWorkout(); });
+      renderToday(); renderWorkout();
+    } else {
+      list.appendChild(bubbleNode("ai", "嗯，調整失敗了。先按原來的課表進行也可以。"));
+    }
+  } catch (e) {
+    if (typing.parentNode) list.removeChild(typing);
+    list.appendChild(bubbleNode("ai", "連線出問題，先按原來的課表進行也可以。"));
+  }
+  list.lastElementChild?.scrollIntoView({ behavior: "smooth", block: "end" });
+}
+function appendUserBubble(text) {
+  state.chat.push({ role: "user", content: text });
+  document.getElementById("chatList").appendChild(bubbleNode("user", text));
+}
+document.querySelectorAll(".adjust-prompt").forEach((b) => {
+  b.addEventListener("click", () => applyAdjust(b.textContent.trim()));
+});
+document.getElementById("chatSend").addEventListener("click", () => {
+  const inp = document.getElementById("chatInput");
+  const v = inp.value.trim();
+  if (!v) return;
+  inp.value = "";
+  ask(v);
+});
+document.getElementById("chatInput").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") document.getElementById("chatSend").click();
+});
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Settings → Architecture sheet
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const archSheet = document.getElementById("archSheet");
+document.getElementById("settingsBtn").addEventListener("click", () => {
+  archSheet.classList.remove("hidden"); archSheet.style.display = "flex";
+});
+document.getElementById("archClose").addEventListener("click", () => {
+  archSheet.classList.add("hidden"); archSheet.style.display = "none";
+});
+document.getElementById("resetOnb").addEventListener("click", () => {
+  if (!confirm("清掉所有 demo 資料、重新走一次 Onboarding？")) return;
+  localStorage.removeItem("rf-user");
+  localStorage.removeItem("rf-seen");
+  location.reload();
+});
+
+// Workout toolbar buttons
+const regenBtn = document.getElementById("regenBtn");
+if (regenBtn) regenBtn.addEventListener("click", async () => {
+  state.dayIndex = (state.dayIndex || 1) + 1;
+  state.setLogs = {}; state.doneFlags = {};
+  await fetchPlan(state.dayIndex);
+});
+const libraryBtn = document.getElementById("libraryBtn");
+if (libraryBtn) libraryBtn.addEventListener("click", openLibrarySheet);
+
+async function openLibrarySheet() {
+  const overlay = document.createElement("div");
+  overlay.className = "screen z-30 bg-black/40 backdrop-blur-sm flex items-end";
+  overlay.innerHTML = `
+    <div class="bg-white rounded-t-3xl w-full max-h-[88vh] overflow-y-auto">
+      <div class="sticky top-0 bg-white z-10 px-5 pt-4 pb-3 border-b border-fit-line">
+        <div class="w-12 h-1.5 bg-fit-line rounded-full mx-auto mb-3"></div>
+        <div class="flex items-center justify-between mb-2">
+          <div class="font-display font-bold">動作資料庫</div>
+          <button id="libClose" class="text-xs text-fit-mute">關閉</button>
+        </div>
+        <input id="libQ" placeholder="搜尋動作 / 肌群（如：胸、背闊、squat）" class="w-full px-3 py-2 rounded-full bg-fit-cream text-sm focus:outline-none">
+        <div class="flex gap-1.5 overflow-x-auto no-scrollbar mt-2">
+          ${["全部","手臂","肩膀","胸部","背部","腹部核心","大腿下肢","全身性"].map((c, i) =>
+            `<button data-cat="${c === '全部' ? '' : c}" class="lib-cat flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-bold ${i===0?'bg-fit-coral text-white':'bg-fit-cream text-fit-soft'}">${c}</button>`
+          ).join("")}
+        </div>
+      </div>
+      <div id="libList" class="p-5 space-y-2 text-sm">載入中…</div>
+    </div>
+  `;
+  document.getElementById("app").appendChild(overlay);
+  overlay.querySelector("#libClose").addEventListener("click", () => overlay.remove());
+
+  let allItems = [];
+  let curCat = "";
+  let curQ = "";
+
+  async function load() {
+    const url = "/api/restart-fit/exercises" + (curCat ? `?category=${encodeURIComponent(curCat)}` : "");
+    const r = await fetch(url);
+    if (!r.ok) { overlay.querySelector("#libList").innerHTML = "<div class='text-fit-mute'>載入失敗</div>"; return; }
+    const data = await r.json();
+    allItems = data.items || [];
+    render();
+  }
+  function render() {
+    const q = curQ.trim().toLowerCase();
+    const filtered = q ? allItems.filter(x =>
+      x.name_zh.toLowerCase().includes(q) ||
+      x.name_en.toLowerCase().includes(q) ||
+      x.primary_muscles.some(m => m.toLowerCase().includes(q))
+    ) : allItems;
+    if (filtered.length === 0) {
+      overlay.querySelector("#libList").innerHTML = "<div class='text-fit-mute text-xs'>沒有符合的動作</div>";
+      return;
+    }
+    overlay.querySelector("#libList").innerHTML = filtered.slice(0, 60).map(x => `
+      <div class="card p-3">
+        <div class="flex items-start justify-between gap-2 mb-1">
+          <div class="font-bold text-sm">${x.name_zh}</div>
+          <span class="text-[10px] px-2 py-0.5 rounded-full bg-fit-cream text-fit-mute font-bold whitespace-nowrap">${x.category}</span>
+        </div>
+        <div class="text-[11px] text-fit-mute mb-1.5">${x.name_en} · ${x.movement_pattern} · ${x.suitable_for}</div>
+        <div class="text-[12px] text-fit-soft leading-relaxed">${x.muscle_emphasis_note}</div>
+        ${x.variations && x.variations.length ? `
+          <div class="mt-2 flex flex-wrap gap-1">
+            ${x.variations.map(v => `<span class="text-[10px] px-2 py-0.5 rounded-full bg-fit-mist text-fit-coral">${v.name_zh}${v.emphasis_change ? ' · ' + v.emphasis_change : ''}</span>`).join('')}
+          </div>` : ''}
+      </div>
+    `).join("");
+  }
+  overlay.querySelector("#libQ").addEventListener("input", (e) => { curQ = e.target.value; render(); });
+  overlay.querySelectorAll(".lib-cat").forEach(b => {
+    b.addEventListener("click", async () => {
+      overlay.querySelectorAll(".lib-cat").forEach(x => x.className = "lib-cat flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-fit-cream text-fit-soft");
+      b.className = "lib-cat flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-bold bg-fit-coral text-white";
+      curCat = b.getAttribute("data-cat") || "";
+      await load();
+    });
+  });
+  await load();
+}
+
+// initial render
+if (hasSeen) { renderToday(); renderWorkout(); renderChat(); }
+</script>
+</body>
+</html>

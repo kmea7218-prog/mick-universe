@@ -10,6 +10,7 @@ import {
   Bot,
   Scroll,
   Plane,
+  Dumbbell,
 } from "lucide-react";
 
 const nav = [
@@ -19,6 +20,7 @@ const nav = [
   { href: "/brainstorm", label: "腦力激盪", icon: Lightbulb },
   { href: "/ai", label: "AI 協作中控", icon: Bot },
   { href: "/singapore", label: "新加坡 · 獅城五日", icon: Plane },
+  { href: "/restart-fit", label: "Restart Fit · 重啟訓練", icon: Dumbbell },
 ];
 
 export default function Sidebar() {
